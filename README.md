@@ -15,6 +15,10 @@ Then open http://localhost:5517.
 - **Preview:** GitHub Pages, deployed by `.github/workflows/preview-pages.yml` on every push to `main`. The preview is marked `noindex` so search engines ignore it.
 - **Production:** AWS. Before each production deploy, run `node tools/generate-sitemap.mjs` to write `sitemap.xml` and `robots.txt`.
 
+## Motion of the week
+
+The home page card rotates through the motions in `motions-of-the-week.js`, one per week, changing on Monday (Sydney time). To add or edit motions, follow the instructions at the top of that file. After editing, bump `motions-of-the-week.js?v=` in `index.html` so browsers fetch the new list.
+
 ## Changing the domain
 
 The production domain lives in `site.config.json`. If it changes, update the canonical, Open Graph and JSON-LD URLs in each page to match. The sitemap script refuses to run while any page's canonical URL disagrees with the config.
@@ -25,6 +29,7 @@ The production domain lives in `site.config.json`. If it changes, update the can
 |---|---|
 | `index.html`, `programs.html`, `competitions.html`, `contact.html` | The site's pages |
 | `scene.js` | Hero animation (Canvas 2D, no library) |
+| `motions-of-the-week.js` | The rotating list of motions for the home page card |
 | `main.js` | Navigation, scroll reveals, card tilt, counters, enquiry form |
 | `options.html`, `options.js` | Alternative hero animations kept for later; `noindex` and not linked from the site |
 | `Logo.jpg` | Original logo artwork; `logo-mark.png`, `favicon.png`, `apple-touch-icon.png` and `og-image.png` are derived from it |

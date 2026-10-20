@@ -126,6 +126,7 @@
   function setUpMotionCard() {
     const card = document.querySelector('[data-motion]');
     if (!card) return;
+    showThisWeeksMotion(card);
     const sides = card.querySelectorAll('[data-side]');
     const next = card.querySelector('.motion__next');
     const switchButton = card.querySelector('[data-switch]');
@@ -144,6 +145,35 @@
       const current = card.querySelector('[data-side][aria-pressed="true"]').dataset.side;
       choose(current === 'for' ? 'against' : 'for');
     });
+  }
+
+  // The HTML holds a fallback motion; when the list loads, it is replaced by this week's.
+  function showThisWeeksMotion(card) {
+    const motions = window.MOTIONS_OF_THE_WEEK;
+    if (!Array.isArray(motions) || motions.length === 0) return;
+    const motion = motions[getSydneyWeekNumber() % motions.length];
+
+    const text = card.querySelector('.motion__text');
+    text.replaceChildren(text.querySelector('span'), ` ${motion.motion}`);
+    ['for', 'against'].forEach((side) => {
+      const panel = card.querySelector(`[data-argument="${side}"]`);
+      panel.querySelector('.motion__argument').textContent = `“${motion[side].argument}”`;
+      const tip = panel.querySelector('.motion__tip');
+      tip.replaceChildren(tip.querySelector('span'), motion[side].tip);
+    });
+  }
+
+  // Weeks counted in Sydney time from Monday 5 January 2026, so every visitor
+  // sees the same motion and it changes at the start of the Australian week.
+  function getSydneyWeekNumber() {
+    const parts = new Intl.DateTimeFormat('en-AU', {
+      timeZone: 'Australia/Sydney', year: 'numeric', month: 'numeric', day: 'numeric',
+    }).formatToParts(new Date());
+    const part = (type) => Number(parts.find((p) => p.type === type).value);
+    const today = Date.UTC(part('year'), part('month') - 1, part('day'));
+    const firstMonday = Date.UTC(2026, 0, 5);
+    const weeks = Math.floor((today - firstMonday) / (7 * 24 * 60 * 60 * 1000));
+    return Math.max(0, weeks);
   }
 
   function setUpMotionsTrack() {
