@@ -1,0 +1,54 @@
+# Publishes a preview of the site to GitHub Pages on every push to main.
+# Production is hosted on AWS; this preview is kept out of search engines so
+# it never competes with the production domain.
+name: Preview on GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so the sitemap gets each page's real last-commit date.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Also fails the build if any page's canonical URL drifts from site.config.json.
+      - name: Generate sitemap and robots.txt
+        run: node tools/generate-sitemap.mjs
+
+      - name: Assemble preview site
+        run: |
+          mkdir _site
+          cp *.html *.css *.js *.png _site/
+          sed -i 's|<meta charset="UTF-8">|<meta charset="UTF-8">\n  <meta name="robots" content="noindex, nofollow">|' _site/*.html
+          printf 'User-agent: *\nDisallow: /\n' > _site/robots.txt
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
