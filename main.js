@@ -6,6 +6,8 @@
   setUpReveals();
   setUpTilt();
   setUpCounters();
+  setUpMotionCard();
+  setUpMotionsTrack();
   setUpEnquiryForm();
 
   document.querySelectorAll('[data-year]').forEach((node) => {
@@ -119,6 +121,41 @@
       if (progress < 1) requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
+  }
+
+  function setUpMotionCard() {
+    const card = document.querySelector('[data-motion]');
+    if (!card) return;
+    const sides = card.querySelectorAll('[data-side]');
+    const next = card.querySelector('.motion__next');
+    const switchButton = card.querySelector('[data-switch]');
+
+    function choose(side) {
+      sides.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.side === side)));
+      card.querySelectorAll('[data-argument]').forEach((argument) => {
+        argument.hidden = argument.dataset.argument !== side;
+      });
+      next.hidden = false;
+    }
+
+    sides.forEach((button) => button.addEventListener('click', () => choose(button.dataset.side)));
+    // Arguing the side you disagree with is the core debating habit, so make it one tap.
+    switchButton.addEventListener('click', () => {
+      const current = card.querySelector('[data-side][aria-pressed="true"]').dataset.side;
+      choose(current === 'for' ? 'against' : 'for');
+    });
+  }
+
+  function setUpMotionsTrack() {
+    const track = document.getElementById('motions-track');
+    if (!track) return;
+    document.querySelectorAll('[data-motions-scroll]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const card = track.querySelector('.motions__card');
+        const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
+        track.scrollBy({ left: step * Number(button.dataset.motionsScroll), behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      });
+    });
   }
 
   // No backend yet: validate in the browser and show the confirmation state.

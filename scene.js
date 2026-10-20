@@ -48,7 +48,8 @@
       view.focal = view.height / 2 / Math.tan(HALF_FOV);
 
       // Wide screens: sit right of the headline. Narrow: centre, above the copy.
-      const isWide = width / height > 1.15;
+      // Judged on the visible part of the canvas, since a tall hero can run past the screen.
+      const isWide = width / Math.min(height, window.innerHeight) > 1.15;
       view.offsetX = isWide ? (isVoice ? 3.3 : 4.2) : 0;
       view.offsetY = isWide ? 0.4 : 3.6;
       view.scale = isWide ? 1 : 0.72;
