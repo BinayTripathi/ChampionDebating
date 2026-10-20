@@ -179,7 +179,7 @@ ul { list-style: none; }
 .btn:hover .btn__icon { transform: translate(3px, -2px) scale(1.06); }
 .btn svg { width: 16px; height: 16px; }
 
-.btn--primary { background: var(--red); color: #fff; box-shadow: 0 18px 40px -18px rgba(200, 32, 47, 0.8); }
+.btn--primary { background: var(--red); color: #fff; box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.55); }
 .btn--primary .btn__icon { background: rgba(255, 255, 255, 0.16); }
 .btn--primary:hover { background: #b01b29; }
 
@@ -592,7 +592,7 @@ ul { list-style: none; }
   display: flex; align-items: center; gap: 10px;
   font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold);
 }
-.motion__label::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--red-bright); box-shadow: 0 0 0 4px rgba(224, 64, 76, 0.18); }
+.motion__label::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--red-bright); }
 .motion__text { margin-top: 16px; font-family: var(--font-display); font-size: 1.75rem; line-height: 1.15; }
 .motion__text span { display: block; font-style: italic; font-size: 1.05rem; color: var(--gold-soft); margin-bottom: 4px; }
 .motion__ask { margin: 20px 0 10px; font-size: 0.92rem; color: var(--text-light-muted); }
