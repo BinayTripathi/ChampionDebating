@@ -62,7 +62,8 @@
         entry.target.classList.add('is-in');
         observer.unobserve(entry.target);
       });
-    }, { rootMargin: '0px 0px -12% 0px' });
+    // Start a quarter-screen early so sections finish arriving before they scroll into view, never showing a blank block.
+    }, { rootMargin: '0px 0px 25% 0px' });
     targets.forEach((node) => observer.observe(node));
   }
 
