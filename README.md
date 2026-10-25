@@ -27,7 +27,7 @@ The production domain lives in `site.config.json`. If it changes, update the can
 
 | File | Purpose |
 |---|---|
-| `index.html`, `programs.html`, `competitions.html`, `contact.html` | The site's pages |
+| `index.html`, `programs.html`, `coaches.html`, `competitions.html`, `contact.html` | The site's pages |
 | `scene.js` | Hero animation (Canvas 2D, no library) |
 | `motions-of-the-week.js` | The rotating list of motions for the home page card |
 | `main.js` | Navigation, scroll reveals, card tilt, counters, enquiry form |
@@ -37,7 +37,7 @@ The production domain lives in `site.config.json`. If it changes, update the can
 ## Before launch
 
 - Confirm the production domain.
-- Replace placeholder content: contact details, statistics, prices and competition claims.
-- Add the address, phone and opening hours to the page and the JSON-LD.
+- Add the TryBooking link for the workshop series (the button currently goes to the contact page).
+- Add opening hours to the page and the JSON-LD.
 - Add a privacy policy page; the enquiry form collects parents' details.
 - Connect the enquiry form to a backend. It currently only shows a confirmation message.
