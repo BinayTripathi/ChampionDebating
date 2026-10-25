@@ -620,6 +620,9 @@ ul { list-style: none; }
 .motions__card:hover { transform: translateY(-6px); }
 .motions__topic { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
 .motions__card:nth-child(4n + 4) .motions__topic { color: var(--wine); }
+/* The wine card's lighter top drops gold and muted text below 4.5:1, so lift both there. */
+.motions__card:nth-child(4n + 2) .motions__topic { color: var(--gold-pale); }
+.motions__card:nth-child(4n + 2) .motions__level { color: rgba(243, 233, 218, 0.85); }
 .motions__card p { font-family: var(--font-display); font-size: clamp(1.6rem, 2.2vw, 1.95rem); line-height: 1.12; }
 .motions__card p span { display: block; margin-bottom: 6px; font-style: italic; font-size: 1.05rem; color: var(--gold-soft); }
 .motions__card:nth-child(4n + 4) p span { color: var(--wine-bright); }
