@@ -1,5 +1,5 @@
 /**
- * Generates sitemap.xml and robots.txt from the HTML pages in the site root.
+ * Generates sitemap.xml and robots.txt from the HTML pages in the site root and zh/.
  *
  * Run before every deploy:  node tools/generate-sitemap.mjs
  *
@@ -17,15 +17,15 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const { siteUrl } = JSON.parse(readFileSync(join(root, 'site.config.json'), 'utf8'));
 
-const pages = readdirSync(root)
-  .filter((file) => file.endsWith('.html'))
+const htmlIn = (dir) => readdirSync(join(root, dir)).filter((f) => f.endsWith('.html')).map((f) => (dir ? `${dir}/${f}` : f));
+const pages = [...htmlIn(''), ...htmlIn('zh')]
   .sort((a, b) => (a === 'index.html' ? -1 : b === 'index.html' ? 1 : a.localeCompare(b)))
   .map((file) => ({ file, html: readFileSync(join(root, file), 'utf8') }))
   .filter(({ html }) => !/<meta\s+name="robots"\s+content="[^"]*noindex/i.test(html));
 
 const problems = [];
 const entries = pages.map(({ file, html }) => {
-  const url = file === 'index.html' ? `${siteUrl}/` : `${siteUrl}/${file}`;
+  const url = `${siteUrl}/${file.replace(/(^|\/)index\.html$/, '$1')}`;
   const canonical = html.match(/<link\s+rel="canonical"\s+href="([^"]+)"/i)?.[1];
   if (canonical !== url) problems.push(`${file}: canonical is ${canonical ?? 'missing'}, expected ${url}`);
   return { url, lastmod: getLastModified(file) };

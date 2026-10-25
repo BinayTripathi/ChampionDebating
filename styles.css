@@ -76,6 +76,16 @@ ul { list-style: none; }
 
 :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; border-radius: 8px; }
 
+/* Chinese pages: the Latin display fonts have no CJK glyphs, so name serif/sans fallbacks,
+   give CJK more leading, and avoid synthetic italics. */
+:lang(zh) {
+  --font-display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --font-body: "Manrope", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+}
+:lang(zh) em { font-style: normal; }
+:lang(zh) .display { line-height: 1.12; letter-spacing: 0; }
+:lang(zh) .h2, :lang(zh) .h3 { line-height: 1.25; letter-spacing: 0; }
+
 .skip-link {
   position: absolute;
   left: 16px;
@@ -298,6 +308,16 @@ ul { list-style: none; }
   width: 4px; height: 4px; margin-left: -2px; border-radius: 50%;
   background: var(--red-bright);
 }
+
+.nav__lang {
+  display: grid; place-items: center;
+  min-width: 44px; height: 44px; padding: 0 12px; border-radius: 999px;
+  font-size: 0.86rem; font-weight: 600; color: var(--text-light);
+  box-shadow: inset 0 0 0 1px var(--hair-light);
+  transition: box-shadow 0.5s var(--ease), color 0.5s var(--ease);
+}
+.nav__lang:hover { color: var(--gold); box-shadow: inset 0 0 0 1px rgba(201, 166, 107, 0.5); }
+.menu__lang { display: inline-block; margin-right: 18px; padding: 10px 0; font-size: 1.1rem; font-weight: 600; color: var(--gold); }
 
 .nav__toggle {
   display: none;
@@ -901,6 +921,7 @@ fieldset.field { border: 0; }
   .nav { width: calc(100% - 32px); justify-content: space-between; padding-left: 18px; }
   .nav__links, .nav .btn { display: none; }
   .nav__toggle { display: block; }
+  .nav__lang { margin-left: auto; }
 }
 
 @media (max-width: 767px) {

@@ -19,6 +19,16 @@ Then open http://localhost:5517.
 
 The home page card rotates through the motions in `motions-of-the-week.js`, one per week, changing on Monday (Sydney time). To add or edit motions, follow the instructions at the top of that file. After editing, bump `motions-of-the-week.js?v=` in `index.html` so browsers fetch the new list.
 
+## Chinese version
+
+The Chinese pages in `zh/` are generated from the English pages. After editing any English page, run:
+
+```bash
+node tools/build-zh.mjs
+```
+
+It translates every text using `i18n/zh.json` and fails, listing the strings, if any English text has no translation. Add each one under `translations`, or under `keep` if it should stay in English (names, places, tournament titles, debate motions). Commit the updated `zh/` pages with your change; the preview build checks they are up to date.
+
 ## Changing the domain
 
 The production domain lives in `site.config.json`. If it changes, update the canonical, Open Graph and JSON-LD URLs in each page to match. The sitemap script refuses to run while any page's canonical URL disagrees with the config.
@@ -30,6 +40,7 @@ The production domain lives in `site.config.json`. If it changes, update the can
 | `index.html`, `programs.html`, `coaches.html`, `competitions.html`, `contact.html` | The site's pages |
 | `scene.js` | Hero animation (Canvas 2D, no library) |
 | `motions-of-the-week.js` | The rotating list of motions for the home page card |
+| `zh/`, `i18n/zh.json`, `tools/build-zh.mjs` | The Chinese site, its translations and the script that builds it |
 | `main.js` | Navigation, scroll reveals, card tilt, counters, enquiry form |
 | `options.html`, `options.js` | Alternative hero animations kept for later; `noindex` and not linked from the site |
 | `Logo.jpg` | Original logo artwork; `logo-mark.png`, `favicon.png`, `apple-touch-icon.png` and `og-image.png` are derived from it |

@@ -1,5 +1,13 @@
 (function () {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // The Chinese pages are generated from the English HTML, so strings set from script are translated here.
+  const TEXT = document.documentElement.lang.startsWith('zh') ? {
+    openMenu: '打开菜单', closeMenu: '关闭菜单', sent: '谢谢！我们已收到您的咨询。',
+    required: '请填写此项。', email: '请输入有效的邮箱地址。', invalid: '请检查此项。',
+  } : {
+    openMenu: 'Open menu', closeMenu: 'Close menu', sent: 'Thank you. Your enquiry has been received.',
+    required: 'Please fill in this field.', email: 'Please enter a valid email address.', invalid: 'Please check this field.',
+  };
 
   setUpMenu();
   setUpNavState();
@@ -21,7 +29,7 @@
 
     function setOpen(isOpen) {
       toggle.setAttribute('aria-expanded', String(isOpen));
-      toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      toggle.setAttribute('aria-label', isOpen ? TEXT.closeMenu : TEXT.openMenu);
       menu.classList.toggle('is-open', isOpen);
       menu.inert = !isOpen;
       document.body.classList.toggle('menu-open', isOpen);
@@ -214,14 +222,14 @@
       }
 
       wrapper.classList.add('is-sent');
-      status.textContent = 'Thank you. Your enquiry has been received.';
+      status.textContent = TEXT.sent;
       wrapper.querySelector('.form-success').focus();
     });
   }
 
   function getErrorMessage(field) {
-    if (field.validity.valueMissing) return 'Please fill in this field.';
-    if (field.validity.typeMismatch) return 'Please enter a valid email address.';
-    return 'Please check this field.';
+    if (field.validity.valueMissing) return TEXT.required;
+    if (field.validity.typeMismatch) return TEXT.email;
+    return TEXT.invalid;
   }
 })();

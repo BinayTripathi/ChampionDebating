@@ -33,6 +33,12 @@ jobs:
         with:
           node-version: 20
 
+      # Fails if an English page changed without rebuilding the Chinese pages.
+      - name: Check the Chinese pages are up to date
+        run: |
+          node tools/build-zh.mjs
+          git diff --exit-code -- '*.html' || { echo "Run node tools/build-zh.mjs and commit the result."; exit 1; }
+
       # Also fails the build if any page's canonical URL drifts from site.config.json.
       - name: Generate sitemap and robots.txt
         run: node tools/generate-sitemap.mjs
@@ -41,7 +47,8 @@ jobs:
         run: |
           mkdir _site
           cp *.html *.css *.js *.png _site/
-          sed -i 's|<meta charset="UTF-8">|<meta charset="UTF-8">\n  <meta name="robots" content="noindex, nofollow">|' _site/*.html
+          cp -r zh _site/
+          sed -i 's|<meta charset="UTF-8">|<meta charset="UTF-8">\n  <meta name="robots" content="noindex, nofollow">|' _site/*.html _site/zh/*.html
           printf 'User-agent: *\nDisallow: /\n' > _site/robots.txt
 
       - uses: actions/configure-pages@v5
