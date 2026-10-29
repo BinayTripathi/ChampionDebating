@@ -7,7 +7,7 @@
  * download. It animates on its own and does not follow the pointer.
  *
  * <canvas data-scene="voice"> renders the full waveform; data-scene="orb"
- * renders the quieter lectern-and-orbits variant used on inner pages.
+ * renders a quieter lectern-and-orbits variant.
  */
 (function () {
   const GOLD = [201, 166, 107];
@@ -17,10 +17,12 @@
   const KEY_LIGHT = normalize([5, 7, 9]);
   const RIM_LIGHT = normalize([-8, -3, -2]);
   const BASE_TILT = -0.32;
+  const LECTERN_TILT = 0.5;
 
 
-  const OXBLOOD_BASE = [112, 22, 44];
-  const GOLD_BASE = [168, 128, 66];
+  const OXBLOOD_BASE = [62, 13, 22];
+  const OXBLOOD_DARK_BASE = [36, 8, 14];
+  const GOLD_BASE = [150, 112, 58];
   const GRILLE_BASE = [46, 36, 42];
   const LECTERN = createLectern();
 
@@ -38,7 +40,7 @@
       speed: (0.06 + i * 0.035) * (i % 2 ? -1 : 1),
     }));
 
-    const view = { width: 0, height: 0, focal: 0, offsetX: 0, offsetY: 0, scale: 1, dpr: 1 };
+    const view = { width: 0, height: 0, centerY: 0, focal: 0, offsetX: 0, offsetY: 0, scale: 1, dpr: 1 };
 
     function resize() {
       const { clientWidth: width, clientHeight: height } = canvas;
@@ -48,12 +50,16 @@
       canvas.height = Math.round(height * view.dpr);
       view.width = canvas.width;
       view.height = canvas.height;
-      view.focal = view.height / 2 / Math.tan(HALF_FOV);
 
       // Wide screens: sit right of the headline. Narrow: centre, above the copy.
       // Judged on the visible part of the canvas, since a tall hero can run past the screen.
       const isWide = width / Math.min(height, window.innerHeight) > 1.15;
-      view.offsetX = isWide ? (isVoice ? 3.3 : 4.2) : 0;
+      // Size and centre by the screen rather than the hero, whose height varies with
+      // each page's copy, so the scene sits identically on every page.
+      const stageHeight = Math.min(height, window.innerHeight);
+      view.centerY = (stageHeight * view.dpr) / 2;
+      view.focal = (stageHeight * 0.9 * view.dpr) / 2 / Math.tan(HALF_FOV);
+      view.offsetX = isWide ? 3.6 : 0;
       view.offsetY = isWide ? 0.4 : 3.6;
       view.scale = isWide ? 1 : 0.72;
     }
@@ -71,7 +77,7 @@
     function project(point) {
       const depth = CAMERA_Z - point[2];
       const ratio = view.focal / depth;
-      return [view.width / 2 + point[0] * ratio, view.height / 2 - point[1] * ratio, ratio];
+      return [view.width / 2 + point[0] * ratio, view.centerY - point[1] * ratio, ratio];
     }
 
     function render(t) {
@@ -175,7 +181,8 @@
       const spinY = -0.2 + Math.sin(t * 0.3) * 0.32;
       const lift = Math.sin(t * 0.8) * 0.08;
       const vertices = LECTERN.vertices.map((v) => {
-        const local = rotateY(v, spinY);
+        // Tip the lectern against the ring's tilt so it is seen from the front and a little above.
+        const local = rotateX(rotateY(v, spinY), LECTERN_TILT);
         local[1] += lift;
         return toWorld(local, sway);
       });
@@ -188,18 +195,18 @@
         const centroid = [0, 1, 2].map((k) => points.reduce((sum, p) => sum + p[k], 0) / points.length);
         const toCamera = normalize([-centroid[0], -centroid[1], CAMERA_Z - centroid[2]]);
         if (dot(normal, toCamera) <= 0) continue;
-        faces.push({ points: points.map(project), z: centroid[2], color: shadeFace(normal, toCamera, base) });
+        faces.push({ points: points.map(project), z: centroid[2], color: shadeFace(normal, toCamera, base), isGrille: base === GRILLE_BASE });
       }
       faces.sort((x, y) => x.z - y.z);
 
       ctx.lineJoin = 'round';
       ctx.lineWidth = view.dpr * 0.8;
-      ctx.strokeStyle = 'rgba(201, 166, 107, 0.55)';
       for (const face of faces) {
         ctx.beginPath();
         face.points.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
         ctx.closePath();
         ctx.fillStyle = face.color;
+        ctx.strokeStyle = face.isGrille ? 'rgba(201, 166, 107, 0.6)' : face.color;
         ctx.fill();
         ctx.stroke();
       }
@@ -291,34 +298,53 @@
       }
     }
 
-    box(rect(-1.85, 1.0, 0.65), rect(-1.6, 1.0, 0.65));                        // base
-    box(rect(-1.6, 0.55, 0.4), rect(0.55, 0.7, 0.48));                         // column, wider at the top
-    box(rect(0.55, 1.15, 0.75),                                                // reading desk, sloping
-      [[-1.15, 0.8, 0.85], [1.15, 0.8, 0.85], [1.15, 1.3, -0.75], [-1.15, 1.3, -0.75]]);
-    box(rect(-1.0, 0.32, 0.03, 0, 0.47), rect(0.1, 0.32, 0.03, 0, 0.49), GOLD_BASE); // gold plaque on the front
+    // Octagon at height y: a rectangle of half-widths hx, hz with its corners chamfered by c.
+    const chamfer = (y, hx, hz, c, cz = 0) => [
+      [-hx + c, y, cz + hz], [hx - c, y, cz + hz], [hx, y, cz + hz - c], [hx, y, cz - hz + c],
+      [hx - c, y, cz - hz], [-hx + c, y, cz - hz], [-hx, y, cz - hz + c], [-hx, y, cz + hz - c],
+    ];
+    const prism = (bottom, top, base = OXBLOOD_BASE) => {
+      const n = bottom.length;
+      const ring = [...Array(n).keys()];
+      addSolid([...bottom, ...top], [ring, ring.map((i) => n + i), ...ring.map((i) => [i, (i + 1) % n, n + (i + 1) % n, n + i])], base);
+    };
+
+    // The audience is at +z; the speaker stands behind at -z.
+    prism(chamfer(-1.85, 0.95, 0.68, 0.08), chamfer(-1.72, 0.95, 0.68, 0.08), OXBLOOD_DARK_BASE); // plinth
+    prism(chamfer(-1.72, 0.82, 0.58, 0.07), chamfer(-1.64, 0.8, 0.56, 0.07), OXBLOOD_DARK_BASE);  // step
+    prism(chamfer(-1.64, 0.66, 0.44, 0.1), chamfer(0.6, 0.8, 0.52, 0.1));                         // body, flaring upward
+    prism(chamfer(0.6, 0.86, 0.57, 0.1), chamfer(0.68, 0.86, 0.57, 0.1), GOLD_BASE);               // gold trim band
+    const slope = (p) => [p[0], 1.0 + p[2] * 0.3, p[2]];                                            // reading top, falling to the speaker
+    prism(chamfer(0.68, 0.95, 0.66, 0.1), chamfer(0, 0.95, 0.66, 0.1).map(slope));
+    box(rect(0.79, 0.8, 0.025, 0, -0.6), rect(0.9, 0.8, 0.025, 0, -0.6), GOLD_BASE);               // book ledge
+    // Raised front panel following the body's flare, carrying a gold medallion.
+    box(rect(-1.3, 0.48, 0.012, 0, 0.464), rect(0.35, 0.58, 0.012, 0, 0.523), OXBLOOD_DARK_BASE);
+    // Centred on the panel and standing well proud of it, so the depth sort draws it in front.
+    tube([[[0, -0.48, 0.49], [0, 0, 1], 0.26], [[0, -0.48, 0.57], [0, 0, 1], 0.26]], GOLD_BASE, 28);
+    tube([[[0, -0.48, 0.57], [0, 0, 1], 0.19], [[0, -0.48, 0.6], [0, 0, 1], 0.19]], OXBLOOD_BASE, 28);
 
     // Microphone: a round mounting flange, a curved gooseneck, a gold handle and a dark mesh grille.
-    tube([[[0.6, 1.17, -0.45], [0, 1, 0], 0.13], [[0.6, 1.27, -0.45], [0, 1, 0], 0.11]], GOLD_BASE);
-    const neckStart = [0.6, 1.27, -0.45];
-    const neckBend = [0.62, 2.05, -0.45];
-    const neckEnd = [0.42, 2.2, -0.08];
+    tube([[[0.55, 0.86, -0.38], [0, 1, 0], 0.08], [[0.55, 0.93, -0.38], [0, 1, 0], 0.065]], GOLD_BASE);
+    const neckStart = [0.55, 0.93, -0.38];
+    const neckBend = [0.57, 1.5, -0.38];
+    const neckEnd = [0.44, 1.66, -0.55];
     const curve = Array.from({ length: 9 }, (_, i) => {
       const t = i / 8;
       const point = [0, 1, 2].map((k) => (1 - t) ** 2 * neckStart[k] + 2 * (1 - t) * t * neckBend[k] + t ** 2 * neckEnd[k]);
       const tangent = [0, 1, 2].map((k) => 2 * (1 - t) * (neckBend[k] - neckStart[k]) + 2 * t * (neckEnd[k] - neckBend[k]));
-      return [point, tangent, 0.045];
+      return [point, tangent, 0.03];
     });
     tube(curve, GOLD_BASE);
     const aim = normalize(subtract(neckEnd, neckBend));
     const along = (distance) => [0, 1, 2].map((k) => neckEnd[k] + aim[k] * distance);
-    tube([[along(0), aim, 0.06], [along(0.32), aim, 0.09]], GOLD_BASE);                // handle
-    tube([[along(0.32), aim, 0.105], [along(0.38), aim, 0.105]], GOLD_BASE);              // collar
-    const grille = createIcosphere(0.16);
-    const grilleCentre = along(0.52);
+    tube([[along(0), aim, 0.04], [along(0.22), aim, 0.06]], GOLD_BASE);                // handle
+    tube([[along(0.22), aim, 0.07], [along(0.26), aim, 0.07]], GOLD_BASE);              // collar
+    const grille = createIcosphere(0.105);
+    const grilleCentre = along(0.35);
     addSolid(grille.vertices.map((p) => [0, 1, 2].map((k) => p[k] + grilleCentre[k])), grille.faces, GRILLE_BASE);
 
     // Centre the whole lectern on the origin so it spins in place.
-    const midY = (-1.85 + 2.52) / 2;
+    const midY = (-1.85 + 1.95) / 2;
     return { vertices: vertices.map(([x, y, z]) => [x, y - midY, z]), faces };
   }
 
