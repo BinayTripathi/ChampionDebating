@@ -1,13 +1,13 @@
 /*
- * Hero scene: a faceted oxblood gem ringed by a gold "voice" waveform —
- * the brand line "amplifying voices" made literal.
+ * Hero scene: a faceted oxblood lectern with a gold microphone, ringed by a
+ * gold "voice" waveform: a speaker finding their voice, made literal.
  *
  * Drawn with plain Canvas 2D and a few lines of 3D projection maths instead
  * of a WebGL library, so it paints on the first frame with nothing extra to
  * download. It animates on its own and does not follow the pointer.
  *
  * <canvas data-scene="voice"> renders the full waveform; data-scene="orb"
- * renders the quieter gem-and-orbits variant used on inner pages.
+ * renders the quieter lectern-and-orbits variant used on inner pages.
  */
 (function () {
   const GOLD = [201, 166, 107];
@@ -19,7 +19,9 @@
   const BASE_TILT = -0.32;
 
 
-  const GEM = createIcosphere(1.75);
+  const OXBLOOD_BASE = [112, 22, 44];
+  const GOLD_BASE = [168, 128, 66];
+  const LECTERN = createLectern();
 
   document.querySelectorAll('canvas[data-scene]').forEach((canvas) => {
     createScene(canvas, canvas.dataset.scene === 'voice');
@@ -107,7 +109,7 @@
       }
     }
 
-    // Bars and orbit segments are split around the gem so each sits in front or behind it.
+    // Bars and orbit segments are split around the lectern so each sits in front or behind it.
     function collectRingStrokes(t, sway) {
       const strokes = [];
 
@@ -169,24 +171,22 @@
 
     function drawGem(ctx, t, sway) {
       const spinY = t * 0.18;
-      const spinX = Math.sin(t * 0.3) * 0.15;
       const lift = Math.sin(t * 0.8) * 0.08;
-      const vertices = GEM.vertices.map((v) => {
-        const local = rotateX(rotateY(v, spinY), spinX);
+      const vertices = LECTERN.vertices.map((v) => {
+        const local = rotateY(v, spinY);
         local[1] += lift;
         return toWorld(local, sway);
       });
 
       const faces = [];
-      for (const [ia, ib, ic] of GEM.faces) {
-        const a = vertices[ia];
-        const b = vertices[ib];
-        const c = vertices[ic];
+      for (const { indices, isGold } of LECTERN.faces) {
+        const points = indices.map((i) => vertices[i]);
+        const [a, b, c] = points;
         const normal = normalize(cross(subtract(b, a), subtract(c, a)));
-        const centroid = [(a[0] + b[0] + c[0]) / 3, (a[1] + b[1] + c[1]) / 3, (a[2] + b[2] + c[2]) / 3];
+        const centroid = [0, 1, 2].map((k) => points.reduce((sum, p) => sum + p[k], 0) / points.length);
         const toCamera = normalize([-centroid[0], -centroid[1], CAMERA_Z - centroid[2]]);
         if (dot(normal, toCamera) <= 0) continue;
-        faces.push({ points: [a, b, c].map(project), z: centroid[2], color: shadeFace(normal, toCamera) });
+        faces.push({ points: points.map(project), z: centroid[2], color: shadeFace(normal, toCamera, isGold ? GOLD_BASE : OXBLOOD_BASE) });
       }
       faces.sort((x, y) => x.z - y.z);
 
@@ -194,11 +194,8 @@
       ctx.lineWidth = view.dpr * 0.8;
       ctx.strokeStyle = 'rgba(201, 166, 107, 0.55)';
       for (const face of faces) {
-        const [p0, p1, p2] = face.points;
         ctx.beginPath();
-        ctx.moveTo(p0[0], p0[1]);
-        ctx.lineTo(p1[0], p1[1]);
-        ctx.lineTo(p2[0], p2[1]);
+        face.points.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
         ctx.closePath();
         ctx.fillStyle = face.color;
         ctx.fill();
@@ -235,17 +232,71 @@
     frameId = requestAnimationFrame(loop);
   }
 
-  // Oxblood body, gold-pale key highlight, rose rim light from behind-left.
-  function shadeFace(normal, toCamera) {
+  // Base colour lit by a gold-pale key highlight and a rose rim light from behind-left.
+  function shadeFace(normal, toCamera, base) {
     const key = Math.max(0, dot(normal, KEY_LIGHT));
     const rim = Math.max(0, dot(normal, RIM_LIGHT));
     const halfway = normalize([KEY_LIGHT[0] + toCamera[0], KEY_LIGHT[1] + toCamera[1], KEY_LIGHT[2] + toCamera[2]]);
     const specular = Math.pow(Math.max(0, dot(normal, halfway)), 36);
     const body = 0.38 + 1.05 * key;
-    const r = 112 * body + 209 * 0.32 * rim + 244 * specular * 0.85;
-    const g = 22 * body + 64 * 0.32 * rim + 226 * specular * 0.85;
-    const b = 44 * body + 106 * 0.32 * rim + 190 * specular * 0.85;
+    // Lower than the old gem's 0.85: the lectern's large flat panels catch the whole highlight at once.
+    const r = base[0] * body + 209 * 0.32 * rim + 244 * specular * 0.4;
+    const g = base[1] * body + 64 * 0.32 * rim + 226 * specular * 0.4;
+    const b = base[2] * body + 106 * 0.32 * rim + 190 * specular * 0.4;
     return `rgb(${Math.min(255, r | 0)}, ${Math.min(255, g | 0)}, ${Math.min(255, b | 0)})`;
+  }
+
+  // A lectern assembled from convex solids, plus a gold gooseneck microphone.
+  // Units match the old gem (radius 1.75), so it sits inside the 3.15 waveform ring.
+  function createLectern() {
+    const vertices = [];
+    const faces = [];
+    const BOX_FACES = [[0, 1, 2, 3], [4, 5, 6, 7], [0, 1, 5, 4], [1, 2, 6, 5], [2, 3, 7, 6], [3, 0, 4, 7]];
+
+    // Each face is wound so its normal points away from the solid's centre,
+    // which the back-face test in drawGem relies on.
+    function addSolid(points, faceList, isGold) {
+      const offset = vertices.length;
+      const centre = [0, 1, 2].map((k) => points.reduce((sum, p) => sum + p[k], 0) / points.length);
+      vertices.push(...points);
+      for (const face of faceList) {
+        const [a, b, c] = face.map((i) => points[i]);
+        const faceCentre = [0, 1, 2].map((k) => face.reduce((sum, i) => sum + points[i][k], 0) / face.length);
+        const isOutward = dot(cross(subtract(b, a), subtract(c, a)), subtract(faceCentre, centre)) > 0;
+        faces.push({ indices: (isOutward ? face : [...face].reverse()).map((i) => i + offset), isGold });
+      }
+    }
+
+    // Rectangle at height y with half-widths hx, hz, centred on (cx, cz); listed so bottom and top line up.
+    const rect = (y, hx, hz, cx = 0, cz = 0) => [[cx - hx, y, cz + hz], [cx + hx, y, cz + hz], [cx + hx, y, cz - hz], [cx - hx, y, cz - hz]];
+    const box = (bottom, top, isGold = false) => addSolid([...bottom, ...top], BOX_FACES, isGold);
+
+    // A thin square rod between two points, for the microphone's gooseneck.
+    function rod(from, to, half) {
+      const d = normalize(subtract(to, from));
+      const u = normalize(cross(d, Math.abs(d[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0]));
+      const v = cross(d, u);
+      const square = (p) => [[1, 1], [1, -1], [-1, -1], [-1, 1]].map(([i, j]) => [0, 1, 2].map((k) => p[k] + (u[k] * i + v[k] * j) * half));
+      box(square(from), square(to), true);
+    }
+
+    box(rect(-1.85, 1.0, 0.65), rect(-1.6, 1.0, 0.65));                        // base
+    box(rect(-1.6, 0.55, 0.4), rect(0.55, 0.7, 0.48));                         // column, wider at the top
+    box(rect(0.55, 1.15, 0.75),                                                // reading desk, sloping
+      [[-1.15, 0.8, 0.85], [1.15, 0.8, 0.85], [1.15, 1.3, -0.75], [-1.15, 1.3, -0.75]]);
+    box(rect(-1.0, 0.32, 0.03, 0, 0.47), rect(0.1, 0.32, 0.03, 0, 0.49), true); // gold plaque on the front
+
+    const stemBase = [0.6, 1.2, -0.45];
+    const stemBend = [0.55, 1.95, -0.25];
+    const micEnd = [0.3, 2.22, 0.12];
+    rod(stemBase, stemBend, 0.045);
+    rod(stemBend, micEnd, 0.045);
+    const head = createIcosphere(0.2);
+    addSolid(head.vertices.map((p) => [p[0] + 0.25, p[1] + 2.32, p[2] + 0.22]), head.faces, true);
+
+    // Centre the whole lectern on the origin so it spins in place.
+    const midY = (-1.85 + 2.52) / 2;
+    return { vertices: vertices.map(([x, y, z]) => [x, y - midY, z]), faces };
   }
 
   // Icosahedron subdivided once: 80 faces, the same faceting as before.
