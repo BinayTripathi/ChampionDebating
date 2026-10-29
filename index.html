@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="styles.css?v=16">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -148,8 +148,15 @@
         </div>
         </div>
         <aside class="motion" aria-labelledby="motion-label" data-motion>
-          <p class="motion__label" id="motion-label">Motion of the week</p>
-          <p class="motion__text"><span>This house would</span> ban homework in primary schools.</p>
+          <details class="motion__details">
+          <summary class="motion__summary">
+            <span class="motion__head">
+              <span class="motion__label" id="motion-label">Motion of the week</span>
+              <span class="motion__toggle"><span class="motion__toggle-open">Pick a side</span><span class="motion__toggle-close">Close</span></span>
+            </span>
+            <span class="motion__text"><span>This house would</span> ban homework in primary schools.</span>
+          </summary>
+          <div class="motion__body">
           <p class="motion__ask" id="motion-ask">Which side would you take?</p>
           <div class="motion__sides" role="group" aria-labelledby="motion-ask">
             <button class="motion__side" type="button" data-side="for" aria-pressed="false">For</button>
@@ -171,6 +178,8 @@
               </a>
             </div>
           </div>
+          </div>
+          </details>
         </aside>
         </div>
         <dl class="hero__meta">

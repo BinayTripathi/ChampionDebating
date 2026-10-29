@@ -637,21 +637,52 @@ ul { list-style: none; }
 .hero__layout .hero__title { max-width: none; font-size: clamp(3rem, 5.8vw, 6rem); }
 .hero__layout .hero__lede { max-width: 46ch; }
 .hero__layout + .hero__meta { margin-top: clamp(40px, 5vw, 64px); }
+/* Collapsed to a slim bar so the hero animation stays visible; the For/Against panel
+   opens above it on demand (in the flow on narrower screens). */
+.hero__layout .motion { justify-self: end; width: 100%; max-width: 380px; }
 .motion {
-  padding: 28px;
-  border-radius: 1.6rem;
-  background: rgba(26, 6, 16, 0.8);
-  box-shadow: inset 0 0 0 1px var(--hair-light), 0 40px 80px -40px rgba(0, 0, 0, 0.85);
+  position: relative;
   opacity: 0;
   animation: fade-up 0.8s var(--ease-out) 0.35s forwards;
 }
 .motion [hidden] { display: none; }
+.motion__summary, .motion__body {
+  border-radius: 1.4rem;
+  background: rgba(26, 6, 16, 0.88);
+  box-shadow: inset 0 0 0 1px var(--hair-light), 0 30px 60px -36px rgba(0, 0, 0, 0.85);
+}
+.motion__summary {
+  display: grid; gap: 10px;
+  padding: 18px 22px;
+  list-style: none;
+  cursor: pointer;
+  transition: box-shadow 0.5s var(--ease);
+}
+.motion__summary::-webkit-details-marker { display: none; }
+.motion__summary:hover { box-shadow: inset 0 0 0 1px rgba(201, 166, 107, 0.5), 0 30px 60px -36px rgba(0, 0, 0, 0.85); }
+.motion__head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.motion__toggle { display: inline-flex; align-items: center; gap: 10px; font-size: 0.86rem; font-weight: 600; color: var(--text-light); white-space: nowrap; }
+.motion__toggle::after {
+  content: ""; width: 7px; height: 7px;
+  border-right: 1.5px solid var(--red-bright); border-bottom: 1.5px solid var(--red-bright);
+  transform: translateY(2px) rotate(-135deg);
+  transition: transform 0.5s var(--ease);
+}
+.motion__details[open] .motion__toggle::after { transform: translateY(-2px) rotate(45deg); }
+.motion__toggle-close, .motion__details[open] .motion__toggle-open { display: none; }
+.motion__details[open] .motion__toggle-close { display: inline; }
+.motion__body {
+  position: absolute; left: 0; right: 0; bottom: calc(100% + 10px);
+  padding: 22px 24px;
+  animation: fade-up 0.5s var(--ease-out);
+}
+.motion__body .motion__ask { margin-top: 0; }
 .motion__label {
   display: flex; align-items: center; gap: 10px;
   font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold);
 }
 .motion__label::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--red-bright); }
-.motion__text { margin-top: 16px; font-family: var(--font-display); font-size: 1.75rem; line-height: 1.15; }
+.motion__text { display: block; font-family: var(--font-display); font-size: 1.3rem; line-height: 1.2; }
 .motion__text span { display: block; font-style: italic; font-size: 1.05rem; color: var(--gold-soft); margin-bottom: 4px; }
 .motion__ask { margin: 20px 0 10px; font-size: 0.92rem; color: var(--text-light-muted); }
 .motion__sides { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -911,7 +942,10 @@ fieldset.field { border: 0; }
 
 @media (max-width: 1080px) {
   .hero__layout { grid-template-columns: 1fr; }
-  .motion { max-width: 480px; }
+  .hero__layout .motion { justify-self: start; max-width: 480px; }
+  .motion__body { position: static; margin-top: 8px; }
+  .motion__toggle::after { transform: translateY(-2px) rotate(45deg); }
+  .motion__details[open] .motion__toggle::after { transform: translateY(2px) rotate(-135deg); }
   .nav__links a { padding: 10px 12px; }
   .stats { grid-template-columns: repeat(2, 1fr); row-gap: 48px; }
   .stat:nth-child(2) { border-right: 0; }

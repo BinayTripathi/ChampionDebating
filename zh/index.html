@@ -28,7 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-  <link rel="stylesheet" href="../styles.css?v=14">
+  <link rel="stylesheet" href="../styles.css?v=16">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -149,8 +149,15 @@
         </div>
         </div>
         <aside class="motion" aria-labelledby="motion-label" data-motion>
-          <p class="motion__label" id="motion-label">本周辩题</p>
-          <p class="motion__text"><span>This house would</span> ban homework in primary schools.</p>
+          <details class="motion__details">
+          <summary class="motion__summary">
+            <span class="motion__head">
+              <span class="motion__label" id="motion-label">本周辩题</span>
+              <span class="motion__toggle"><span class="motion__toggle-open">选择立场</span><span class="motion__toggle-close">收起</span></span>
+            </span>
+            <span class="motion__text"><span>This house would</span> ban homework in primary schools.</span>
+          </summary>
+          <div class="motion__body">
           <p class="motion__ask" id="motion-ask">你会选择哪一方？</p>
           <div class="motion__sides" role="group" aria-labelledby="motion-ask">
             <button class="motion__side" type="button" data-side="for" aria-pressed="false">正方</button>
@@ -172,6 +179,8 @@
               </a>
             </div>
           </div>
+          </div>
+          </details>
         </aside>
         </div>
         <dl class="hero__meta">
