@@ -21,6 +21,7 @@
 
   const OXBLOOD_BASE = [112, 22, 44];
   const GOLD_BASE = [168, 128, 66];
+  const GRILLE_BASE = [46, 36, 42];
   const LECTERN = createLectern();
 
   document.querySelectorAll('canvas[data-scene]').forEach((canvas) => {
@@ -170,7 +171,8 @@
     }
 
     function drawGem(ctx, t, sway) {
-      const spinY = t * 0.18;
+      // Sway around a slight three-quarter view rather than spin, so the front plaque stays in sight.
+      const spinY = -0.2 + Math.sin(t * 0.3) * 0.32;
       const lift = Math.sin(t * 0.8) * 0.08;
       const vertices = LECTERN.vertices.map((v) => {
         const local = rotateY(v, spinY);
@@ -179,14 +181,14 @@
       });
 
       const faces = [];
-      for (const { indices, isGold } of LECTERN.faces) {
+      for (const { indices, base } of LECTERN.faces) {
         const points = indices.map((i) => vertices[i]);
         const [a, b, c] = points;
         const normal = normalize(cross(subtract(b, a), subtract(c, a)));
         const centroid = [0, 1, 2].map((k) => points.reduce((sum, p) => sum + p[k], 0) / points.length);
         const toCamera = normalize([-centroid[0], -centroid[1], CAMERA_Z - centroid[2]]);
         if (dot(normal, toCamera) <= 0) continue;
-        faces.push({ points: points.map(project), z: centroid[2], color: shadeFace(normal, toCamera, isGold ? GOLD_BASE : OXBLOOD_BASE) });
+        faces.push({ points: points.map(project), z: centroid[2], color: shadeFace(normal, toCamera, base) });
       }
       faces.sort((x, y) => x.z - y.z);
 
@@ -255,7 +257,7 @@
 
     // Each face is wound so its normal points away from the solid's centre,
     // which the back-face test in drawGem relies on.
-    function addSolid(points, faceList, isGold) {
+    function addSolid(points, faceList, base) {
       const offset = vertices.length;
       const centre = [0, 1, 2].map((k) => points.reduce((sum, p) => sum + p[k], 0) / points.length);
       vertices.push(...points);
@@ -263,36 +265,57 @@
         const [a, b, c] = face.map((i) => points[i]);
         const faceCentre = [0, 1, 2].map((k) => face.reduce((sum, i) => sum + points[i][k], 0) / face.length);
         const isOutward = dot(cross(subtract(b, a), subtract(c, a)), subtract(faceCentre, centre)) > 0;
-        faces.push({ indices: (isOutward ? face : [...face].reverse()).map((i) => i + offset), isGold });
+        faces.push({ indices: (isOutward ? face : [...face].reverse()).map((i) => i + offset), base });
       }
     }
 
     // Rectangle at height y with half-widths hx, hz, centred on (cx, cz); listed so bottom and top line up.
     const rect = (y, hx, hz, cx = 0, cz = 0) => [[cx - hx, y, cz + hz], [cx + hx, y, cz + hz], [cx + hx, y, cz - hz], [cx - hx, y, cz - hz]];
-    const box = (bottom, top, isGold = false) => addSolid([...bottom, ...top], BOX_FACES, isGold);
+    const box = (bottom, top, base = OXBLOOD_BASE) => addSolid([...bottom, ...top], BOX_FACES, base);
 
-    // A thin square rod between two points, for the microphone's gooseneck.
-    function rod(from, to, half) {
-      const d = normalize(subtract(to, from));
-      const u = normalize(cross(d, Math.abs(d[1]) > 0.9 ? [1, 0, 0] : [0, 1, 0]));
-      const v = cross(d, u);
-      const square = (p) => [[1, 1], [1, -1], [-1, -1], [-1, 1]].map(([i, j]) => [0, 1, 2].map((k) => p[k] + (u[k] * i + v[k] * j) * half));
-      box(square(from), square(to), true);
+    // A round tube through [centre, tangent, radius] rings, built one convex section
+    // at a time so the outward-facing test in addSolid holds along a curve.
+    function tube(rings, base, sides = 10) {
+      const circles = rings.map(([p, t, r]) => {
+        const u = normalize(cross(t, [1, 0, 0]));
+        const v = cross(normalize(t), u);
+        return Array.from({ length: sides }, (_, k) => {
+          const a = (k / sides) * Math.PI * 2;
+          return [0, 1, 2].map((j) => p[j] + (u[j] * Math.cos(a) + v[j] * Math.sin(a)) * r);
+        });
+      });
+      const ring = [...Array(sides).keys()];
+      for (let i = 0; i < circles.length - 1; i++) {
+        const sidesList = ring.map((k) => [k, (k + 1) % sides, sides + (k + 1) % sides, sides + k]);
+        addSolid([...circles[i], ...circles[i + 1]], [ring, ring.map((k) => sides + k), ...sidesList], base);
+      }
     }
 
     box(rect(-1.85, 1.0, 0.65), rect(-1.6, 1.0, 0.65));                        // base
     box(rect(-1.6, 0.55, 0.4), rect(0.55, 0.7, 0.48));                         // column, wider at the top
     box(rect(0.55, 1.15, 0.75),                                                // reading desk, sloping
       [[-1.15, 0.8, 0.85], [1.15, 0.8, 0.85], [1.15, 1.3, -0.75], [-1.15, 1.3, -0.75]]);
-    box(rect(-1.0, 0.32, 0.03, 0, 0.47), rect(0.1, 0.32, 0.03, 0, 0.49), true); // gold plaque on the front
+    box(rect(-1.0, 0.32, 0.03, 0, 0.47), rect(0.1, 0.32, 0.03, 0, 0.49), GOLD_BASE); // gold plaque on the front
 
-    const stemBase = [0.6, 1.2, -0.45];
-    const stemBend = [0.55, 1.95, -0.25];
-    const micEnd = [0.3, 2.22, 0.12];
-    rod(stemBase, stemBend, 0.045);
-    rod(stemBend, micEnd, 0.045);
-    const head = createIcosphere(0.2);
-    addSolid(head.vertices.map((p) => [p[0] + 0.25, p[1] + 2.32, p[2] + 0.22]), head.faces, true);
+    // Microphone: a round mounting flange, a curved gooseneck, a gold handle and a dark mesh grille.
+    tube([[[0.6, 1.17, -0.45], [0, 1, 0], 0.13], [[0.6, 1.27, -0.45], [0, 1, 0], 0.11]], GOLD_BASE);
+    const neckStart = [0.6, 1.27, -0.45];
+    const neckBend = [0.62, 2.05, -0.45];
+    const neckEnd = [0.42, 2.2, -0.08];
+    const curve = Array.from({ length: 9 }, (_, i) => {
+      const t = i / 8;
+      const point = [0, 1, 2].map((k) => (1 - t) ** 2 * neckStart[k] + 2 * (1 - t) * t * neckBend[k] + t ** 2 * neckEnd[k]);
+      const tangent = [0, 1, 2].map((k) => 2 * (1 - t) * (neckBend[k] - neckStart[k]) + 2 * t * (neckEnd[k] - neckBend[k]));
+      return [point, tangent, 0.045];
+    });
+    tube(curve, GOLD_BASE);
+    const aim = normalize(subtract(neckEnd, neckBend));
+    const along = (distance) => [0, 1, 2].map((k) => neckEnd[k] + aim[k] * distance);
+    tube([[along(0), aim, 0.06], [along(0.32), aim, 0.09]], GOLD_BASE);                // handle
+    tube([[along(0.32), aim, 0.105], [along(0.38), aim, 0.105]], GOLD_BASE);              // collar
+    const grille = createIcosphere(0.16);
+    const grilleCentre = along(0.52);
+    addSolid(grille.vertices.map((p) => [0, 1, 2].map((k) => p[k] + grilleCentre[k])), grille.faces, GRILLE_BASE);
 
     // Centre the whole lectern on the origin so it spins in place.
     const midY = (-1.85 + 2.52) / 2;
