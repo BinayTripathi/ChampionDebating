@@ -1,6 +1,6 @@
 /*
- * Hero scene: a faceted red lectern with a gold microphone, ringed by a
- * gold "voice" waveform: a speaker finding their voice, made literal.
+ * Hero scene: a faceted red lectern with a silver microphone, ringed by a
+ * silver "voice" waveform: a speaker finding their voice, made literal.
  *
  * Drawn with plain Canvas 2D and a few lines of 3D projection maths instead
  * of a WebGL library, so it paints on the first frame with nothing extra to
@@ -10,7 +10,7 @@
  * renders a quieter lectern-and-orbits variant.
  */
 (function () {
-  const GOLD = [201, 166, 107];
+  const SILVER = [228, 236, 246];
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const CAMERA_Z = 17;
   const HALF_FOV = (16 * Math.PI) / 180;
@@ -22,7 +22,7 @@
 
   const RED_BASE = [150, 22, 32];
   const RED_DARK_BASE = [96, 12, 20];
-  const GOLD_BASE = [150, 112, 58];
+  const SILVER_BASE = [158, 166, 180];
   const GRILLE_BASE = [46, 36, 42];
   const LECTERN = createLectern();
 
@@ -89,8 +89,8 @@
 
       const centre = project(toWorld([0, 0, 0], sway));
       const glow = ctx.createRadialGradient(centre[0], centre[1], 0, centre[0], centre[1], centre[2] * 3.4);
-      glow.addColorStop(0, 'rgba(244, 230, 190, 0.10)');
-      glow.addColorStop(1, 'rgba(244, 230, 190, 0)');
+      glow.addColorStop(0, 'rgba(232, 240, 250, 0.10)');
+      glow.addColorStop(1, 'rgba(232, 240, 250, 0)');
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, view.width, view.height);
 
@@ -103,7 +103,7 @@
     function drawDust(ctx, t) {
       const spin = t * 0.02;
       const wobble = Math.sin(t * 0.1) * 0.05;
-      ctx.fillStyle = 'rgba(244, 230, 190, 0.7)';
+      ctx.fillStyle = 'rgba(232, 240, 250, 0.7)';
       for (const point of dust) {
         const world = rotateX(rotateY(point, spin), wobble);
         const screen = project([
@@ -162,7 +162,7 @@
       const width = Math.max(view.dpr * 0.8, stroke.width * a[2]);
       // Farther strokes fade slightly, giving the ring its depth.
       const alpha = stroke.alpha * (0.6 + 0.4 * Math.min(1, Math.max(0, (stroke.z + 4) / 8)));
-      ctx.strokeStyle = ctx.fillStyle = `rgba(${GOLD[0]}, ${GOLD[1]}, ${GOLD[2]}, ${alpha})`;
+      ctx.strokeStyle = ctx.fillStyle = `rgba(${SILVER[0]}, ${SILVER[1]}, ${SILVER[2]}, ${alpha})`;
       if (stroke.isBead) {
         ctx.beginPath();
         ctx.arc(a[0], a[1], width / 2, 0, Math.PI * 2);
@@ -206,7 +206,7 @@
         face.points.forEach(([x, y], i) => (i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
         ctx.closePath();
         ctx.fillStyle = face.color;
-        ctx.strokeStyle = face.isGrille ? 'rgba(201, 166, 107, 0.6)' : face.color;
+        ctx.strokeStyle = face.isGrille ? 'rgba(228, 236, 246, 0.6)' : face.color;
         ctx.fill();
         ctx.stroke();
       }
@@ -241,7 +241,7 @@
     frameId = requestAnimationFrame(loop);
   }
 
-  // Base colour lit by a gold-pale key highlight and a pale blue rim light from behind-left.
+  // Base colour lit by a white key highlight and a pale blue rim light from behind-left.
   function shadeFace(normal, toCamera, base) {
     const key = Math.max(0, dot(normal, KEY_LIGHT));
     const rim = Math.max(0, dot(normal, RIM_LIGHT));
@@ -249,13 +249,13 @@
     const specular = Math.pow(Math.max(0, dot(normal, halfway)), 36);
     const body = 0.38 + 1.05 * key;
     // Lower than the old gem's 0.85: the lectern's large flat panels catch the whole highlight at once.
-    const r = base[0] * body + 120 * 0.32 * rim + 244 * specular * 0.4;
-    const g = base[1] * body + 170 * 0.32 * rim + 226 * specular * 0.4;
-    const b = base[2] * body + 235 * 0.32 * rim + 190 * specular * 0.4;
+    const r = base[0] * body + 120 * 0.32 * rim + 240 * specular * 0.4;
+    const g = base[1] * body + 170 * 0.32 * rim + 242 * specular * 0.4;
+    const b = base[2] * body + 235 * 0.32 * rim + 248 * specular * 0.4;
     return `rgb(${Math.min(255, r | 0)}, ${Math.min(255, g | 0)}, ${Math.min(255, b | 0)})`;
   }
 
-  // A lectern assembled from convex solids, plus a gold gooseneck microphone.
+  // A lectern assembled from convex solids, plus a silver gooseneck microphone.
   // Units match the old gem (radius 1.75), so it sits inside the 3.15 waveform ring.
   function createLectern() {
     const vertices = [];
@@ -313,18 +313,18 @@
     prism(chamfer(-1.85, 0.95, 0.68, 0.08), chamfer(-1.72, 0.95, 0.68, 0.08), RED_DARK_BASE); // plinth
     prism(chamfer(-1.72, 0.82, 0.58, 0.07), chamfer(-1.64, 0.8, 0.56, 0.07), RED_DARK_BASE);  // step
     prism(chamfer(-1.64, 0.66, 0.44, 0.1), chamfer(0.6, 0.8, 0.52, 0.1));                         // body, flaring upward
-    prism(chamfer(0.6, 0.86, 0.57, 0.1), chamfer(0.68, 0.86, 0.57, 0.1), GOLD_BASE);               // gold trim band
+    prism(chamfer(0.6, 0.86, 0.57, 0.1), chamfer(0.68, 0.86, 0.57, 0.1), SILVER_BASE);               // silver trim band
     const slope = (p) => [p[0], 1.0 + p[2] * 0.3, p[2]];                                            // reading top, falling to the speaker
     prism(chamfer(0.68, 0.95, 0.66, 0.1), chamfer(0, 0.95, 0.66, 0.1).map(slope));
-    box(rect(0.79, 0.8, 0.025, 0, -0.6), rect(0.9, 0.8, 0.025, 0, -0.6), GOLD_BASE);               // book ledge
-    // Raised front panel following the body's flare, carrying a gold medallion.
+    box(rect(0.79, 0.8, 0.025, 0, -0.6), rect(0.9, 0.8, 0.025, 0, -0.6), SILVER_BASE);               // book ledge
+    // Raised front panel following the body's flare, carrying a silver medallion.
     box(rect(-1.3, 0.48, 0.012, 0, 0.464), rect(0.35, 0.58, 0.012, 0, 0.523), RED_DARK_BASE);
     // Centred on the panel and standing well proud of it, so the depth sort draws it in front.
-    tube([[[0, -0.48, 0.49], [0, 0, 1], 0.26], [[0, -0.48, 0.57], [0, 0, 1], 0.26]], GOLD_BASE, 28);
+    tube([[[0, -0.48, 0.49], [0, 0, 1], 0.26], [[0, -0.48, 0.57], [0, 0, 1], 0.26]], SILVER_BASE, 28);
     tube([[[0, -0.48, 0.57], [0, 0, 1], 0.19], [[0, -0.48, 0.6], [0, 0, 1], 0.19]], RED_BASE, 28);
 
-    // Microphone: a round mounting flange, a curved gooseneck, a gold handle and a dark mesh grille.
-    tube([[[0.55, 0.86, -0.38], [0, 1, 0], 0.08], [[0.55, 0.93, -0.38], [0, 1, 0], 0.065]], GOLD_BASE);
+    // Microphone: a round mounting flange, a curved gooseneck, a silver handle and a dark mesh grille.
+    tube([[[0.55, 0.86, -0.38], [0, 1, 0], 0.08], [[0.55, 0.93, -0.38], [0, 1, 0], 0.065]], SILVER_BASE);
     const neckStart = [0.55, 0.93, -0.38];
     const neckBend = [0.57, 1.5, -0.38];
     const neckEnd = [0.44, 1.66, -0.55];
@@ -334,11 +334,11 @@
       const tangent = [0, 1, 2].map((k) => 2 * (1 - t) * (neckBend[k] - neckStart[k]) + 2 * t * (neckEnd[k] - neckBend[k]));
       return [point, tangent, 0.03];
     });
-    tube(curve, GOLD_BASE);
+    tube(curve, SILVER_BASE);
     const aim = normalize(subtract(neckEnd, neckBend));
     const along = (distance) => [0, 1, 2].map((k) => neckEnd[k] + aim[k] * distance);
-    tube([[along(0), aim, 0.04], [along(0.22), aim, 0.06]], GOLD_BASE);                // handle
-    tube([[along(0.22), aim, 0.07], [along(0.26), aim, 0.07]], GOLD_BASE);              // collar
+    tube([[along(0), aim, 0.04], [along(0.22), aim, 0.06]], SILVER_BASE);                // handle
+    tube([[along(0.22), aim, 0.07], [along(0.26), aim, 0.07]], SILVER_BASE);              // collar
     const grille = createIcosphere(0.105);
     const grilleCentre = along(0.35);
     addSolid(grille.vertices.map((p) => [0, 1, 2].map((k) => p[k] + grilleCentre[k])), grille.faces, GRILLE_BASE);

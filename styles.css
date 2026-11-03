@@ -193,9 +193,9 @@ ul { list-style: none; }
 .btn--primary .btn__icon { background: rgba(255, 255, 255, 0.16); }
 .btn--primary:hover { background: #b01b29; }
 
-.btn--ghost { color: var(--text-light); box-shadow: inset 0 0 0 1px var(--hair-light); }
-.btn--ghost .btn__icon { background: rgba(232, 215, 168, 0.1); }
-.btn--ghost:hover { box-shadow: inset 0 0 0 1px rgba(232, 215, 168, 0.4); }
+.btn--ghost { color: #fff; background: transparent; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7); }
+.btn--ghost .btn__icon { background: rgba(255, 255, 255, 0.12); }
+.btn--ghost:hover { background: rgba(255, 255, 255, 0.08); box-shadow: inset 0 0 0 1px #fff; }
 
 .btn--ink { background: var(--ink); color: var(--cream); }
 .btn--ink .btn__icon { background: rgba(244, 236, 224, 0.12); }
@@ -311,12 +311,13 @@ ul { list-style: none; }
 
 .nav__lang {
   display: grid; place-items: center;
-  min-width: 44px; height: 44px; padding: 0 12px; border-radius: 999px;
-  font-size: 0.86rem; font-weight: 600; color: var(--text-light);
-  box-shadow: inset 0 0 0 1px var(--hair-light);
-  transition: box-shadow 0.5s var(--ease), color 0.5s var(--ease);
+  min-width: 44px; height: 44px; padding: 0 14px; margin-right: 10px;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  font-size: 0.86rem; font-weight: 600; color: var(--text-light-muted);
+  text-decoration: underline transparent; text-underline-offset: 5px;
+  transition: color 0.5s var(--ease), text-decoration-color 0.5s var(--ease);
 }
-.nav__lang:hover { color: var(--gold); box-shadow: inset 0 0 0 1px rgba(201, 166, 107, 0.5); }
+.nav__lang:hover { color: #fff; text-decoration-color: currentColor; }
 .menu__lang { display: inline-block; margin-right: 18px; padding: 10px 0; font-size: 1.1rem; font-weight: 600; color: var(--gold-soft); }
 
 .nav__toggle {
@@ -981,7 +982,7 @@ body.menu-open .book-bar { visibility: hidden; }
   .nav { width: calc(100% - 32px); justify-content: space-between; padding-left: 18px; }
   .nav__links, .nav .btn { display: none; }
   .nav__toggle { display: block; }
-  .nav__lang { margin-left: auto; }
+  .nav__lang { margin-left: auto; border-left: 0; }
 }
 
 @media (max-width: 767px) {
