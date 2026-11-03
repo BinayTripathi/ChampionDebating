@@ -20,14 +20,14 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Champion Debating logo with the line: Find your voice. Win the argument.">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#1a0610">
+  <meta name="theme-color" content="#024a89">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=18">
+  <link rel="stylesheet" href="styles.css?v=21">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -154,7 +154,7 @@
         <a href="contact.html" aria-current="page">Contact</a>
       </div>
       <a class="nav__lang" href="zh/contact.html" lang="zh-Hans" hreflang="zh-Hans">中文</a>
-      <a class="btn btn--primary btn--sm" href="contact.html">Book a trial
+      <a class="btn btn--primary btn--sm" href="contact.html#book">Book a trial
         <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
       </a>
       <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
@@ -169,12 +169,16 @@
       </div>
       <div class="menu__foot">
         <a class="menu__lang" href="zh/contact.html" lang="zh-Hans" hreflang="zh-Hans">中文</a>
-        <a class="btn btn--primary" href="contact.html">Book a free trial
+        <a class="btn btn--primary" href="contact.html#book">Book a free trial
           <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
         </a>
       </div>
     </div>
   </header>
+
+  <a class="book-bar btn btn--primary" href="contact.html#book">Book a free trial
+    <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
+  </a>
 
   <main id="main">
     <section class="hero hero--page on-dark" aria-labelledby="page-title">
@@ -188,6 +192,11 @@
           <span class="line"><span style="--i:2"><em>step.</em></span></span>
         </p>
         <p class="lede hero__lede">Book a free trial class, ask about a program or the workshop series, or talk to us about competitions.</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href="#book">Book a free trial
+            <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -197,11 +206,20 @@
           <span class="eyebrow">Get in touch</span>
           <h2 class="h2" id="enquire-title">Start the <em>conversation.</em></h2>
           <dl class="channels">
-            <div><dt>WhatsApp</dt><dd><a href="https://wa.me/61416059885">+61 416 059 885</a></dd></div>
-            <div><dt>Xiaohongshu &amp; WeChat</dt><dd>Also available</dd></div>
             <div><dt>Locations</dt><dd>Glen Waverley · Kew · Hawthorn</dd></div>
             <div><dt>Balwyn campus</dt><dd>255 Whitehorse Road, Balwyn</dd></div>
           </dl>
+
+          <div class="qr-codes">
+            <figure class="qr">
+              <a href="https://wa.me/61416059885"><img src="qr-whatsapp.svg" alt="QR code to message Champion Debating on WhatsApp" width="148" height="148"></a>
+              <figcaption><b>WhatsApp</b><a href="https://wa.me/61416059885">+61 416 059 885</a></figcaption>
+            </figure>
+            <figure class="qr">
+              <div class="qr__pending">WeChat QR code to be added</div>
+              <figcaption><b>WeChat</b>Scan to add us</figcaption>
+            </figure>
+          </div>
 
           <aside class="bezel note-card" aria-labelledby="referral-title">
             <div class="bezel__core">
@@ -214,8 +232,10 @@
           </aside>
         </div>
 
-        <div class="bezel" data-reveal style="--d:120ms" data-enquiry>
+        <div class="bezel book" id="book" data-reveal style="--d:120ms" data-enquiry>
           <div class="bezel__core">
+            <h2 class="h3 book__title">Book a free trial class</h2>
+            <p class="muted book__lede">Tell us about your child and we’ll be in touch to arrange a time.</p>
             <form class="form" novalidate>
               <fieldset class="field">
                 <legend>I’m interested in</legend>
@@ -234,30 +254,47 @@
                   <span class="field__error" id="parent-name-error"></span>
                 </div>
                 <div class="field">
-                  <label for="contact-detail">Email or phone</label>
-                  <input id="contact-detail" name="contact" type="text" autocomplete="email" required aria-describedby="contact-detail-error">
-                  <span class="field__error" id="contact-detail-error"></span>
+                  <label for="parent-email">Parent email</label>
+                  <input id="parent-email" name="email" type="email" autocomplete="email" required aria-describedby="parent-email-error">
+                  <span class="field__error" id="parent-email-error"></span>
+                </div>
+              </div>
+              <div class="form__row">
+                <div class="field">
+                  <label for="mobile">Mobile number</label>
+                  <input id="mobile" name="mobile" type="tel" autocomplete="tel" pattern="[0-9 +]{8,}" required aria-describedby="mobile-error">
+                  <span class="field__error" id="mobile-error"></span>
+                </div>
+                <div class="field">
+                  <label for="campus">Campus</label>
+                  <select id="campus" name="campus" required aria-describedby="campus-error">
+                    <option value="">Choose a campus</option>
+                    <option>Balwyn</option>
+                    <option>Glen Waverley</option>
+                    <option>Online</option>
+                  </select>
+                  <span class="field__error" id="campus-error"></span>
                 </div>
               </div>
               <div class="field">
                 <label for="year">Student’s year level</label>
                 <select id="year" name="year" required aria-describedby="year-error">
                   <option value="">Choose a year level</option>
-                  <option>Year 3–6 (Primary)</option>
-                  <option>Year 7–8 (Junior)</option>
-                  <option>Year 7–10 (Secondary)</option>
-                  <option>Elite / VST</option>
-                  <option>Workshop series</option>
-                  <option>Other</option>
+                  <option>Year 3–4</option>
+                  <option>Year 5–6</option>
+                  <option>Year 7</option>
+                  <option>Year 8</option>
+                  <option>Year 9</option>
+                  <option>Year 10 &amp; above</option>
                 </select>
                 <span class="field__error" id="year-error"></span>
               </div>
               <div class="field">
                 <label for="message">Message <span class="muted">(optional)</span></label>
-                <textarea id="message" name="message" placeholder="Experience so far, goals, preferred campus…"></textarea>
+                <textarea id="message" name="message" placeholder="Experience so far, goals, preferred days…"></textarea>
               </div>
               <div>
-                <button class="btn btn--ink" type="submit">Send enquiry
+                <button class="btn btn--primary" type="submit">Book my free trial
                   <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
                 </button>
               </div>
@@ -329,7 +366,7 @@
           <ul>
             <li><a href="https://wa.me/61416059885">WhatsApp +61 416 059 885</a></li>
             <li>255 Whitehorse Road, Balwyn</li>
-            <li><a href="contact.html">Book a free trial</a></li>
+            <li><a href="contact.html#book">Book a free trial</a></li>
           </ul>
         </div>
       </div>
@@ -341,7 +378,7 @@
     </div>
   </footer>
 
-  <script src="scene.js?v=23" defer></script>
-  <script src="main.js?v=7" defer></script>
+  <script src="scene.js?v=24" defer></script>
+  <script src="main.js?v=8" defer></script>
 </body>
 </html>

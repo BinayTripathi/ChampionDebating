@@ -1,5 +1,5 @@
 /*
- * Hero scene: a faceted oxblood lectern with a gold microphone, ringed by a
+ * Hero scene: a faceted red lectern with a gold microphone, ringed by a
  * gold "voice" waveform: a speaker finding their voice, made literal.
  *
  * Drawn with plain Canvas 2D and a few lines of 3D projection maths instead
@@ -20,8 +20,8 @@
   const LECTERN_TILT = 0.5;
 
 
-  const OXBLOOD_BASE = [62, 13, 22];
-  const OXBLOOD_DARK_BASE = [36, 8, 14];
+  const RED_BASE = [150, 22, 32];
+  const RED_DARK_BASE = [96, 12, 20];
   const GOLD_BASE = [150, 112, 58];
   const GRILLE_BASE = [46, 36, 42];
   const LECTERN = createLectern();
@@ -241,7 +241,7 @@
     frameId = requestAnimationFrame(loop);
   }
 
-  // Base colour lit by a gold-pale key highlight and a rose rim light from behind-left.
+  // Base colour lit by a gold-pale key highlight and a pale blue rim light from behind-left.
   function shadeFace(normal, toCamera, base) {
     const key = Math.max(0, dot(normal, KEY_LIGHT));
     const rim = Math.max(0, dot(normal, RIM_LIGHT));
@@ -249,9 +249,9 @@
     const specular = Math.pow(Math.max(0, dot(normal, halfway)), 36);
     const body = 0.38 + 1.05 * key;
     // Lower than the old gem's 0.85: the lectern's large flat panels catch the whole highlight at once.
-    const r = base[0] * body + 209 * 0.32 * rim + 244 * specular * 0.4;
-    const g = base[1] * body + 64 * 0.32 * rim + 226 * specular * 0.4;
-    const b = base[2] * body + 106 * 0.32 * rim + 190 * specular * 0.4;
+    const r = base[0] * body + 120 * 0.32 * rim + 244 * specular * 0.4;
+    const g = base[1] * body + 170 * 0.32 * rim + 226 * specular * 0.4;
+    const b = base[2] * body + 235 * 0.32 * rim + 190 * specular * 0.4;
     return `rgb(${Math.min(255, r | 0)}, ${Math.min(255, g | 0)}, ${Math.min(255, b | 0)})`;
   }
 
@@ -278,7 +278,7 @@
 
     // Rectangle at height y with half-widths hx, hz, centred on (cx, cz); listed so bottom and top line up.
     const rect = (y, hx, hz, cx = 0, cz = 0) => [[cx - hx, y, cz + hz], [cx + hx, y, cz + hz], [cx + hx, y, cz - hz], [cx - hx, y, cz - hz]];
-    const box = (bottom, top, base = OXBLOOD_BASE) => addSolid([...bottom, ...top], BOX_FACES, base);
+    const box = (bottom, top, base = RED_BASE) => addSolid([...bottom, ...top], BOX_FACES, base);
 
     // A round tube through [centre, tangent, radius] rings, built one convex section
     // at a time so the outward-facing test in addSolid holds along a curve.
@@ -303,25 +303,25 @@
       [-hx + c, y, cz + hz], [hx - c, y, cz + hz], [hx, y, cz + hz - c], [hx, y, cz - hz + c],
       [hx - c, y, cz - hz], [-hx + c, y, cz - hz], [-hx, y, cz - hz + c], [-hx, y, cz + hz - c],
     ];
-    const prism = (bottom, top, base = OXBLOOD_BASE) => {
+    const prism = (bottom, top, base = RED_BASE) => {
       const n = bottom.length;
       const ring = [...Array(n).keys()];
       addSolid([...bottom, ...top], [ring, ring.map((i) => n + i), ...ring.map((i) => [i, (i + 1) % n, n + (i + 1) % n, n + i])], base);
     };
 
     // The audience is at +z; the speaker stands behind at -z.
-    prism(chamfer(-1.85, 0.95, 0.68, 0.08), chamfer(-1.72, 0.95, 0.68, 0.08), OXBLOOD_DARK_BASE); // plinth
-    prism(chamfer(-1.72, 0.82, 0.58, 0.07), chamfer(-1.64, 0.8, 0.56, 0.07), OXBLOOD_DARK_BASE);  // step
+    prism(chamfer(-1.85, 0.95, 0.68, 0.08), chamfer(-1.72, 0.95, 0.68, 0.08), RED_DARK_BASE); // plinth
+    prism(chamfer(-1.72, 0.82, 0.58, 0.07), chamfer(-1.64, 0.8, 0.56, 0.07), RED_DARK_BASE);  // step
     prism(chamfer(-1.64, 0.66, 0.44, 0.1), chamfer(0.6, 0.8, 0.52, 0.1));                         // body, flaring upward
     prism(chamfer(0.6, 0.86, 0.57, 0.1), chamfer(0.68, 0.86, 0.57, 0.1), GOLD_BASE);               // gold trim band
     const slope = (p) => [p[0], 1.0 + p[2] * 0.3, p[2]];                                            // reading top, falling to the speaker
     prism(chamfer(0.68, 0.95, 0.66, 0.1), chamfer(0, 0.95, 0.66, 0.1).map(slope));
     box(rect(0.79, 0.8, 0.025, 0, -0.6), rect(0.9, 0.8, 0.025, 0, -0.6), GOLD_BASE);               // book ledge
     // Raised front panel following the body's flare, carrying a gold medallion.
-    box(rect(-1.3, 0.48, 0.012, 0, 0.464), rect(0.35, 0.58, 0.012, 0, 0.523), OXBLOOD_DARK_BASE);
+    box(rect(-1.3, 0.48, 0.012, 0, 0.464), rect(0.35, 0.58, 0.012, 0, 0.523), RED_DARK_BASE);
     // Centred on the panel and standing well proud of it, so the depth sort draws it in front.
     tube([[[0, -0.48, 0.49], [0, 0, 1], 0.26], [[0, -0.48, 0.57], [0, 0, 1], 0.26]], GOLD_BASE, 28);
-    tube([[[0, -0.48, 0.57], [0, 0, 1], 0.19], [[0, -0.48, 0.6], [0, 0, 1], 0.19]], OXBLOOD_BASE, 28);
+    tube([[[0, -0.48, 0.57], [0, 0, 1], 0.19], [[0, -0.48, 0.6], [0, 0, 1], 0.19]], RED_BASE, 28);
 
     // Microphone: a round mounting flange, a curved gooseneck, a gold handle and a dark mesh grille.
     tube([[[0.55, 0.86, -0.38], [0, 1, 0], 0.08], [[0.55, 0.93, -0.38], [0, 1, 0], 0.065]], GOLD_BASE);
