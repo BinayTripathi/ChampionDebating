@@ -1,5 +1,5 @@
 /*
- * Hero scene: a faceted red lectern with a silver microphone, ringed by a
+ * Hero scene: a faceted white lectern with a silver microphone, ringed by a
  * silver "voice" waveform: a speaker finding their voice, made literal.
  *
  * Drawn with plain Canvas 2D and a few lines of 3D projection maths instead
@@ -7,10 +7,13 @@
  * download. It animates on its own and does not follow the pointer.
  *
  * <canvas data-scene="voice"> renders the full waveform; data-scene="orb"
- * renders a quieter lectern-and-orbits variant.
+ * renders a quieter lectern-and-orbits variant. A data-photo image takes the
+ * lectern's place, drawn between the back and front of the rings so the
+ * orbits and their beads pass both behind and in front of it.
  */
 (function () {
   const SILVER = [228, 236, 246];
+  const GOLD = [216, 176, 98];
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const CAMERA_Z = 17;
   const HALF_FOV = (16 * Math.PI) / 180;
@@ -20,8 +23,10 @@
   const LECTERN_TILT = 0.5;
 
 
-  const RED_BASE = [150, 22, 32];
-  const RED_DARK_BASE = [96, 12, 20];
+  const WHITE_BASE = [182, 190, 204];
+  const GREY_BASE = [118, 130, 150];
+  const NAVY_BASE = [16, 44, 92];
+  const RED_BASE = [176, 26, 38];
   const SILVER_BASE = [158, 166, 180];
   const GRILLE_BASE = [46, 36, 42];
   const LECTERN = createLectern();
@@ -41,6 +46,15 @@
     }));
 
     const view = { width: 0, height: 0, centerY: 0, focal: 0, offsetX: 0, offsetY: 0, scale: 1, dpr: 1 };
+    let photo = null;
+    if (canvas.dataset.photo) {
+      const image = new Image();
+      image.onload = () => {
+        photo = featherEdges(image);
+        if (prefersReducedMotion) render(4);
+      };
+      image.src = canvas.dataset.photo;
+    }
 
     function resize() {
       const { clientWidth: width, clientHeight: height } = canvas;
@@ -60,7 +74,7 @@
       view.centerY = (stageHeight * view.dpr) / 2;
       view.focal = (stageHeight * 0.9 * view.dpr) / 2 / Math.tan(HALF_FOV);
       view.offsetX = isWide ? 3.6 : 0;
-      view.offsetY = isWide ? 0.4 : 3.6;
+      view.offsetY = isWide ? 0.4 : 2.6;
       view.scale = isWide ? 1 : 0.72;
     }
 
@@ -96,8 +110,16 @@
 
       const rings = collectRingStrokes(t, sway);
       rings.filter((stroke) => stroke.z < 0).forEach((stroke) => drawStroke(ctx, stroke));
-      drawGem(ctx, t, sway);
+      if (photo) drawPhoto(ctx, centre);
+      else if (!canvas.dataset.photo) drawGem(ctx, t, sway);
       rings.filter((stroke) => stroke.z >= 0).forEach((stroke) => drawStroke(ctx, stroke));
+    }
+
+    // Sized so the photo's own neon ring sits just inside the waveform bars.
+    function drawPhoto(ctx, centre) {
+      const width = 6.9 * centre[2] * view.scale;
+      const height = (width * photo.height) / photo.width;
+      ctx.drawImage(photo, centre[0] - width / 2, centre[1] - height / 2, width, height);
     }
 
     function drawDust(ctx, t) {
@@ -149,8 +171,10 @@
           const to = place(((s + 1) / segments) * Math.PI * 2, orbit.radius);
           strokes.push({ from, to, z: (from[2] + to[2]) / 2, width: 0.014, alpha: 0.8 });
         }
-        const bead = place(0, orbit.radius);
-        strokes.push({ from: bead, to: bead, z: bead[2], width: 0.16, alpha: 1, isBead: true });
+        for (const angle of [0, Math.PI]) {
+          const bead = place(angle, orbit.radius);
+          strokes.push({ from: bead, to: bead, z: bead[2], width: 0.16, alpha: 1, isBead: true });
+        }
       }
 
       return strokes;
@@ -162,7 +186,8 @@
       const width = Math.max(view.dpr * 0.8, stroke.width * a[2]);
       // Farther strokes fade slightly, giving the ring its depth.
       const alpha = stroke.alpha * (0.6 + 0.4 * Math.min(1, Math.max(0, (stroke.z + 4) / 8)));
-      ctx.strokeStyle = ctx.fillStyle = `rgba(${SILVER[0]}, ${SILVER[1]}, ${SILVER[2]}, ${alpha})`;
+      const colour = stroke.isBead ? GOLD : SILVER;
+      ctx.strokeStyle = ctx.fillStyle = `rgba(${colour[0]}, ${colour[1]}, ${colour[2]}, ${alpha})`;
       if (stroke.isBead) {
         ctx.beginPath();
         ctx.arc(a[0], a[1], width / 2, 0, Math.PI * 2);
@@ -241,6 +266,26 @@
     frameId = requestAnimationFrame(loop);
   }
 
+  // Fades the photo's square edges to transparent so its starfield melts into the hero's.
+  function featherEdges(image) {
+    const canvas = document.createElement('canvas');
+    canvas.width = image.naturalWidth;
+    canvas.height = image.naturalHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
+    ctx.globalCompositeOperation = 'destination-in';
+    for (const [x1, y1] of [[canvas.width, 0], [0, canvas.height]]) {
+      const fade = ctx.createLinearGradient(0, 0, x1, y1);
+      fade.addColorStop(0, 'rgba(0, 0, 0, 0)');
+      fade.addColorStop(0.12, 'rgba(0, 0, 0, 1)');
+      fade.addColorStop(0.88, 'rgba(0, 0, 0, 1)');
+      fade.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = fade;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    return canvas;
+  }
+
   // Base colour lit by a white key highlight and a pale blue rim light from behind-left.
   function shadeFace(normal, toCamera, base) {
     const key = Math.max(0, dot(normal, KEY_LIGHT));
@@ -278,7 +323,7 @@
 
     // Rectangle at height y with half-widths hx, hz, centred on (cx, cz); listed so bottom and top line up.
     const rect = (y, hx, hz, cx = 0, cz = 0) => [[cx - hx, y, cz + hz], [cx + hx, y, cz + hz], [cx + hx, y, cz - hz], [cx - hx, y, cz - hz]];
-    const box = (bottom, top, base = RED_BASE) => addSolid([...bottom, ...top], BOX_FACES, base);
+    const box = (bottom, top, base = WHITE_BASE) => addSolid([...bottom, ...top], BOX_FACES, base);
 
     // A round tube through [centre, tangent, radius] rings, built one convex section
     // at a time so the outward-facing test in addSolid holds along a curve.
@@ -303,25 +348,25 @@
       [-hx + c, y, cz + hz], [hx - c, y, cz + hz], [hx, y, cz + hz - c], [hx, y, cz - hz + c],
       [hx - c, y, cz - hz], [-hx + c, y, cz - hz], [-hx, y, cz - hz + c], [-hx, y, cz + hz - c],
     ];
-    const prism = (bottom, top, base = RED_BASE) => {
+    const prism = (bottom, top, base = WHITE_BASE) => {
       const n = bottom.length;
       const ring = [...Array(n).keys()];
       addSolid([...bottom, ...top], [ring, ring.map((i) => n + i), ...ring.map((i) => [i, (i + 1) % n, n + (i + 1) % n, n + i])], base);
     };
 
     // The audience is at +z; the speaker stands behind at -z.
-    prism(chamfer(-1.85, 0.95, 0.68, 0.08), chamfer(-1.72, 0.95, 0.68, 0.08), RED_DARK_BASE); // plinth
-    prism(chamfer(-1.72, 0.82, 0.58, 0.07), chamfer(-1.64, 0.8, 0.56, 0.07), RED_DARK_BASE);  // step
+    prism(chamfer(-1.85, 0.95, 0.68, 0.08), chamfer(-1.72, 0.95, 0.68, 0.08), GREY_BASE); // plinth
+    prism(chamfer(-1.72, 0.82, 0.58, 0.07), chamfer(-1.64, 0.8, 0.56, 0.07), GREY_BASE);  // step
     prism(chamfer(-1.64, 0.66, 0.44, 0.1), chamfer(0.6, 0.8, 0.52, 0.1));                         // body, flaring upward
-    prism(chamfer(0.6, 0.86, 0.57, 0.1), chamfer(0.68, 0.86, 0.57, 0.1), SILVER_BASE);               // silver trim band
+    prism(chamfer(0.6, 0.86, 0.57, 0.1), chamfer(0.68, 0.86, 0.57, 0.1), NAVY_BASE);                 // navy trim band
     const slope = (p) => [p[0], 1.0 + p[2] * 0.3, p[2]];                                            // reading top, falling to the speaker
     prism(chamfer(0.68, 0.95, 0.66, 0.1), chamfer(0, 0.95, 0.66, 0.1).map(slope));
-    box(rect(0.79, 0.8, 0.025, 0, -0.6), rect(0.9, 0.8, 0.025, 0, -0.6), SILVER_BASE);               // book ledge
-    // Raised front panel following the body's flare, carrying a silver medallion.
-    box(rect(-1.3, 0.48, 0.012, 0, 0.464), rect(0.35, 0.58, 0.012, 0, 0.523), RED_DARK_BASE);
+    box(rect(0.79, 0.8, 0.025, 0, -0.6), rect(0.9, 0.8, 0.025, 0, -0.6), NAVY_BASE);                 // book ledge
+    // Raised front panel following the body's flare, carrying a red ring medallion.
+    box(rect(-1.3, 0.48, 0.012, 0, 0.464), rect(0.35, 0.58, 0.012, 0, 0.523), GREY_BASE);
     // Centred on the panel and standing well proud of it, so the depth sort draws it in front.
-    tube([[[0, -0.48, 0.49], [0, 0, 1], 0.26], [[0, -0.48, 0.57], [0, 0, 1], 0.26]], SILVER_BASE, 28);
-    tube([[[0, -0.48, 0.57], [0, 0, 1], 0.19], [[0, -0.48, 0.6], [0, 0, 1], 0.19]], RED_BASE, 28);
+    tube([[[0, -0.48, 0.49], [0, 0, 1], 0.26], [[0, -0.48, 0.57], [0, 0, 1], 0.26]], RED_BASE, 28);
+    tube([[[0, -0.48, 0.57], [0, 0, 1], 0.19], [[0, -0.48, 0.6], [0, 0, 1], 0.19]], WHITE_BASE, 28);
 
     // Microphone: a round mounting flange, a curved gooseneck, a silver handle and a dark mesh grille.
     tube([[[0.55, 0.86, -0.38], [0, 1, 0], 0.08], [[0.55, 0.93, -0.38], [0, 1, 0], 0.065]], SILVER_BASE);

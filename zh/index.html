@@ -20,7 +20,7 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="冠军辩论标志及标语：找到你的声音，赢得每一场辩论。">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#024a89">
+  <meta name="theme-color" content="#0a1c4c">
   <script>document.documentElement.classList.add('js');</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-  <link rel="stylesheet" href="../styles.css?v=22">
+  <link rel="stylesheet" href="../styles.css?v=28">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -131,8 +131,8 @@
   </a>
 
   <main id="main">
-    <section class="hero on-dark" aria-labelledby="page-title">
-      <canvas class="hero__canvas" data-scene="voice" aria-hidden="true"></canvas>
+    <section class="hero hero--photo on-dark" aria-labelledby="page-title">
+      <canvas class="hero__canvas" data-scene="voice" data-photo="../hero-students.jpg" aria-hidden="true"></canvas>
       <div class="hero__fade"></div>
       <div class="container hero__content">
         <div class="hero__layout">
@@ -147,46 +147,54 @@
           <a class="btn btn--primary" href="contact.html#book">预约免费体验课
             <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
           </a>
-          <a class="btn btn--ghost" href="programs.html">了解课程
+          <a class="btn btn--gold" href="programs.html">了解课程
             <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
           </a>
         </div>
         </div>
-        <aside class="motion" aria-labelledby="motion-label" data-motion>
-          <details class="motion__details">
-          <summary class="motion__summary">
-            <span class="motion__head">
-              <span class="motion__label" id="motion-label">本周辩题</span>
-              <span class="motion__toggle"><span class="motion__toggle-open">选择立场</span><span class="motion__toggle-close">收起</span></span>
-            </span>
-            <span class="motion__text"><span>This house would</span> ban homework in primary schools.</span>
-          </summary>
-          <div class="motion__body">
-          <p class="motion__ask" id="motion-ask">你会选择哪一方？</p>
-          <div class="motion__sides" role="group" aria-labelledby="motion-ask">
-            <button class="motion__side" type="button" data-side="for" aria-pressed="false">正方</button>
-            <button class="motion__side" type="button" data-side="against" aria-pressed="false">反方</button>
-          </div>
-          <div class="motion__result" aria-live="polite">
-            <div data-argument="for" hidden>
-              <p class="motion__argument">“Young children have few free hours. Every one spent on worksheets is an hour not spent playing, reading for fun or sleeping, and those build learning too.”</p>
-              <p class="motion__tip"><span>教练提示</span>Lead with what children lose, not with what homework fails to give.</p>
-            </div>
-            <div data-argument="against" hidden>
-              <p class="motion__argument">“Homework teaches habits that class time can’t: planning, working alone and asking for help. Ban it, and children first meet those skills in high school, when the stakes are higher.”</p>
-              <p class="motion__tip"><span>教练提示</span>Don’t defend all homework. Defend the right kind: short, purposeful and age-appropriate.</p>
-            </div>
-            <div class="motion__next" hidden>
-              <button class="motion__switch" type="button" data-switch>现在试试站在另一方</button>
-              <a class="text-link" href="contact.html#book">在免费体验课中试试
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>
-              </a>
-            </div>
-          </div>
-          </div>
-          </details>
-        </aside>
         </div>
+        <div class="hero__motion">
+          <aside class="motion" aria-labelledby="motion-label" data-motion>
+            <details class="motion__details">
+            <summary class="motion__summary">
+              <span class="motion__head">
+                <span class="motion__label" id="motion-label">本周辩题</span>
+                <span class="motion__toggle"><span class="motion__toggle-open">选择立场</span><span class="motion__toggle-close">收起</span></span>
+              </span>
+              <span class="motion__text"><span>This house would</span> ban homework in primary schools.</span>
+            </summary>
+            <div class="motion__body">
+            <p class="motion__ask" id="motion-ask">你会选择哪一方？</p>
+            <div class="motion__sides" role="group" aria-labelledby="motion-ask">
+              <button class="motion__side" type="button" data-side="for" aria-pressed="false">正方</button>
+              <button class="motion__side" type="button" data-side="against" aria-pressed="false">反方</button>
+            </div>
+            <div class="motion__result" aria-live="polite">
+              <div data-argument="for" hidden>
+                <p class="motion__argument">“Young children have few free hours. Every one spent on worksheets is an hour not spent playing, reading for fun or sleeping, and those build learning too.”</p>
+                <p class="motion__tip"><span>教练提示</span>Lead with what children lose, not with what homework fails to give.</p>
+              </div>
+              <div data-argument="against" hidden>
+                <p class="motion__argument">“Homework teaches habits that class time can’t: planning, working alone and asking for help. Ban it, and children first meet those skills in high school, when the stakes are higher.”</p>
+                <p class="motion__tip"><span>教练提示</span>Don’t defend all homework. Defend the right kind: short, purposeful and age-appropriate.</p>
+              </div>
+              <div class="motion__next" hidden>
+                <button class="motion__switch" type="button" data-switch>现在试试站在另一方</button>
+                <a class="text-link" href="contact.html#book">在免费体验课中试试
+                  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>
+                </a>
+              </div>
+            </div>
+            </div>
+            </details>
+          </aside>
+        </div>
+      </div>
+      <svg class="hero__wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true"><path d="M0 62C240 22 520 12 800 42s500 46 640 16V90H0Z"/></svg>
+    </section>
+
+    <section class="facts-strip" aria-label="概览">
+      <div class="container">
         <dl class="hero__meta">
           <div><dt>学员</dt><dd>三年级至精英组</dd></div>
           <div><dt>校区</dt><dd>Balwyn、Glen Waverley、Kew 及 Hawthorn</dd></div>
@@ -465,7 +473,7 @@
               <a class="btn btn--primary" href="contact.html#book">预约免费体验课
             <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
           </a>
-              <a class="btn btn--ghost" href="coaches.html">认识我们的教练
+              <a class="btn btn--gold" href="coaches.html">认识我们的教练
             <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
           </a>
             </div>
@@ -519,7 +527,7 @@
     </div>
   </footer>
 
-  <script src="../scene.js?v=25" defer></script>
+  <script src="../scene.js?v=28" defer></script>
   <script src="../motions-of-the-week.js?v=1" defer></script>
   <script src="../main.js?v=8" defer></script>
 </body>

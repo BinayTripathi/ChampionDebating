@@ -46,7 +46,7 @@ jobs:
       - name: Assemble preview site
         run: |
           mkdir _site
-          cp *.html *.css *.js *.png *.svg _site/
+          cp *.html *.css *.js *.png *.svg *.jpg _site/
           cp -r zh _site/
           sed -i 's|<meta charset="UTF-8">|<meta charset="UTF-8">\n  <meta name="robots" content="noindex, nofollow">|' _site/*.html _site/zh/*.html
           printf 'User-agent: *\nDisallow: /\n' > _site/robots.txt
