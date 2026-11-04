@@ -21,6 +21,7 @@
   const RIM_LIGHT = normalize([-8, -3, -2]);
   const BASE_TILT = -0.32;
   const LECTERN_TILT = 0.5;
+  const PHOTO_WIDTH = 6.9;
 
 
   const WHITE_BASE = [182, 190, 204];
@@ -73,9 +74,35 @@
       const stageHeight = Math.min(height, window.innerHeight);
       view.centerY = (stageHeight * view.dpr) / 2;
       view.focal = (stageHeight * 0.9 * view.dpr) / 2 / Math.tan(HALF_FOV);
-      view.offsetX = isWide ? 3.6 : 0;
       view.offsetY = isWide ? 0.4 : 2.6;
-      view.scale = isWide ? 1 : 0.72;
+      view.offsetX = 0;
+      view.scale = 0.72;
+      if (isWide) fitBesideCopy(width, stageHeight);
+    }
+
+    // Fills the space between the hero copy and the hero's right edge: the photo grows
+    // to that width (as far as the screen height allows) and is centred in it, so neither
+    // a short laptop screen nor a wide monitor leaves an empty band beside it.
+    function fitBesideCopy(width, stageHeight) {
+      const pxPerUnit = view.focal / view.dpr / CAMERA_Z;
+      const content = canvas.parentElement.querySelector('.hero__content');
+      if (!content) {
+        view.offsetX = 3.6;
+        view.scale = 1;
+        return;
+      }
+      const left = canvas.getBoundingClientRect().left;
+      const right = content.getBoundingClientRect().right - left - parseFloat(getComputedStyle(content).paddingRight);
+      const copy = content.querySelectorAll('.hero__title .line > span, .hero__lede, .btn-row > *');
+      const copyRight = Math.max(...[...copy].map((el) => el.getBoundingClientRect().right - left));
+      // The waveform reaches about 0.675 photo-widths from the centre, the photo 0.5:
+      // keep the waveform clear of the copy and the photo inside the right edge.
+      const space = right - copyRight - 16;
+      // On big screens the photo is capped at about a third of the width, so the copy keeps equal weight.
+      const photoWidth = Math.min(space / 1.175, stageHeight * 0.72, Math.max(500, width * 0.36));
+      const centre = Math.max(copyRight + 16 + 0.675 * photoWidth, (copyRight + right) / 2);
+      view.scale = Math.max(0.5, photoWidth / (PHOTO_WIDTH * pxPerUnit));
+      view.offsetX = (centre - width / 2) / pxPerUnit;
     }
 
     // Local point -> world point, applying the group tilt, scale and stage offset.
@@ -117,7 +144,7 @@
 
     // Sized so the photo's own neon ring sits just inside the waveform bars.
     function drawPhoto(ctx, centre) {
-      const width = 6.9 * centre[2] * view.scale;
+      const width = PHOTO_WIDTH * centre[2] * view.scale;
       const height = (width * photo.height) / photo.width;
       ctx.drawImage(photo, centre[0] - width / 2, centre[1] - height / 2, width, height);
     }
@@ -238,6 +265,11 @@
     }
 
     resize();
+    // The copy's width depends on the web fonts, so measure again once they arrive.
+    document.fonts?.ready.then(() => {
+      resize();
+      if (prefersReducedMotion) render(4);
+    });
     new ResizeObserver(() => {
       resize();
       if (prefersReducedMotion) render(4);
