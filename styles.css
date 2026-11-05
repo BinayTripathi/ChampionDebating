@@ -466,7 +466,13 @@ ul { list-style: none; }
 /* Full width with proportional margins, so the copy and photo spread out on large screens. */
 .hero .container { max-width: none; padding-inline: max(var(--gutter), 6vw); }
 .hero__title { max-width: 11ch; margin-bottom: 36px; }
-.hero--page .hero__title { max-width: 12ch; font-size: clamp(3rem, 5.8vw, 7.5rem); }
+/* Inner pages get a short title band in the home hero's style, so their content starts on the first screen;
+   the full hero with the photo and ring is the home page's alone. */
+.hero--page { min-height: min(640px, 66svh); padding-top: clamp(130px, 19vh, 180px); padding-bottom: clamp(72px, 9vw, 120px); }
+.hero--page .hero__title { max-width: 16ch; font-size: clamp(2.8rem, 5vw, 5.4rem); margin-bottom: 24px; }
+.hero--band { min-height: 0; padding-top: clamp(120px, 16vh, 150px); padding-bottom: clamp(64px, 7vw, 96px); }
+.hero--band .hero__title { font-size: clamp(2.4rem, 4vw, 4.2rem); margin-bottom: 16px; }
+.hero--band .hero__lede { margin-bottom: 24px; }
 .hero__title .line { display: block; overflow: hidden; padding-bottom: 0.1em; margin-bottom: -0.1em; }
 .hero__title .line > span {
   display: inline-block;
@@ -717,7 +723,6 @@ ul { list-style: none; }
 
 /* The wave carries the hero into the light page; the motion card overlaps it. */
 .hero__wave { position: absolute; left: 0; bottom: -1px; width: 100%; height: clamp(48px, 7vw, 90px); fill: var(--paper); pointer-events: none; }
-.hero__wave--ink { fill: var(--ink); }
 
 .facts-strip { background: var(--paper); padding: 8px 0 clamp(40px, 5vw, 64px); }
 .facts-strip .hero__meta { margin-top: 0; padding-top: 0; border-top: 0; opacity: 1; animation: none; }
@@ -1107,7 +1112,7 @@ body.menu-open .book-bar { visibility: hidden; }
   box-shadow: inset 0 0 0 1px rgba(8, 26, 69, 0.25), inset 0 0 0 7px rgba(255, 255, 255, 0.12);
 }
 .card__brand { font-weight: 700; font-style: italic; font-size: 1.05rem; letter-spacing: 0.02em; }
-.card__label { display: block; font-size: 0.64rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8; }
+.card__label { display: block; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8; }
 .card__input {
   width: 100%; padding: 4px 0; border: 0; border-radius: 0;
   background: transparent; color: var(--ink); font: inherit; font-size: 1rem; font-weight: 600;
@@ -1164,7 +1169,7 @@ body.menu-open .book-bar { visibility: hidden; }
   animation: note-in 0.8s var(--ease-out) 0.3s both;
 }
 @keyframes note-in { from { opacity: 0; transform: translateY(-24px) scale(0.96); } }
-.phone__app { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #4f5d75; }
+.phone__app { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #4f5d75; }
 .phone__title { margin-top: 6px; font-weight: 600; font-size: 0.98rem; }
 .phone__payee { margin-top: 2px; font-size: 0.86rem; color: #4f5d75; }
 .phone__rows { display: grid; gap: 8px; margin: 14px 0; padding-top: 12px; border-top: 1px solid rgba(8, 26, 69, 0.1); }
