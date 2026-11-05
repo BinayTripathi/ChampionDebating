@@ -1043,6 +1043,140 @@ body.menu-open .book-bar { visibility: hidden; }
 /* Tilt cards hand transform back to the tilt rule once revealed */
 .js .tilt[data-reveal].is-in { transform: perspective(1400px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
 
+/* ---------- Payment ---------- */
+
+.pay-head { padding: clamp(150px, 22vh, 200px) 0 clamp(56px, 7vw, 88px); }
+.pay-head .h2 { margin: 24px 0 20px; }
+.pay-section { padding-top: clamp(48px, 6vw, 80px); }
+.pay-notice {
+  margin-bottom: 32px; padding: 14px 18px; border-radius: 14px;
+  font-size: 0.92rem; color: var(--text-dark);
+  background: rgba(216, 176, 98, 0.18); box-shadow: inset 0 0 0 1px rgba(216, 176, 98, 0.55);
+}
+.pay { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: start; }
+/* The preview stays beside the fields as the longer PayTo form scrolls. */
+.pay__card, .pay__phone { position: sticky; top: 120px; padding-top: 24px; }
+.pay__total {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-top: 18px; border-top: 1px solid var(--hair-dark);
+}
+.pay__total span { font-size: 0.76rem; font-weight: 600; letter-spacing: 0.06em; color: var(--text-dark-muted); }
+.pay__total b { font-family: var(--font-display); font-weight: 400; font-size: 2.6rem; line-height: 1; color: var(--text-dark); }
+.pay__small { font-size: 0.82rem; }
+.pay__card { display: grid; justify-items: center; gap: 14px; }
+.pay__hint { font-size: 0.86rem; text-align: center; }
+.pay__card-error { text-align: center; }
+.pay-done { max-width: 52ch; margin: 0 auto; padding: 48px 0; text-align: center; }
+.pay-done .h3 { margin-bottom: 12px; }
+
+/* The card is the form. The slot holds its place and is never transformed, so it can be measured;
+   the card scales (--grow), the tilt layer follows the pointer, and the inner layer turns over. */
+.card-slot { width: min(100%, 380px); aspect-ratio: 1.586; perspective: 1200px; }
+.card {
+  position: relative; width: 100%; height: 100%;
+  transform: scale(var(--grow, 1));
+  transition: transform 0.7s var(--ease-out);
+}
+.card__tilt {
+  width: 100%; height: 100%; transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.4s var(--ease-out);
+}
+.card__inner {
+  position: relative; width: 100%; height: 100%; transform-style: preserve-3d;
+  transition: transform 0.8s var(--ease);
+}
+.card.is-flipped .card__inner { transform: rotateY(180deg); }
+.card__face {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  padding: 7% 8%; border-radius: 18px; overflow: hidden;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  color: var(--ink);
+  background:
+    linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.42) 46%, transparent 60%),
+    linear-gradient(150deg, #f2d593 0%, #d8b062 45%, #b98d44 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7), inset 0 0 0 1px rgba(255, 236, 190, 0.6), 0 30px 60px -30px rgba(8, 26, 69, 0.55);
+}
+.card__face--back { transform: rotateY(180deg); padding: 0 0 7%; }
+/* Only the face toward the viewer takes clicks; the other is behind it in 3D. */
+.card.is-flipped .card__face--front, .card:not(.is-flipped) .card__face--back { pointer-events: none; }
+.card__top { display: flex; justify-content: space-between; align-items: center; margin-bottom: auto; }
+.card__chip {
+  width: 46px; height: 34px; border-radius: 7px;
+  background: linear-gradient(135deg, #f8e7b8, #c9a35a);
+  box-shadow: inset 0 0 0 1px rgba(8, 26, 69, 0.25), inset 0 0 0 7px rgba(255, 255, 255, 0.12);
+}
+.card__brand { font-weight: 700; font-style: italic; font-size: 1.05rem; letter-spacing: 0.02em; }
+.card__label { display: block; font-size: 0.64rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8; }
+.card__input {
+  width: 100%; padding: 4px 0; border: 0; border-radius: 0;
+  background: transparent; color: var(--ink); font: inherit; font-size: 1rem; font-weight: 600;
+  border-bottom: 1px solid rgba(8, 26, 69, 0.2);
+}
+.card__input::placeholder { color: rgba(8, 26, 69, 0.45); }
+.card__input:focus { outline: none; border-bottom-color: var(--ink); }
+.card__input:focus-visible { box-shadow: 0 2px 0 var(--ink); }
+/* Engraved, not printed. */
+.pan { font-size: 1.35rem; letter-spacing: 0.08em; font-variant-numeric: tabular-nums; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.95); }
+.card__face--front .pan { margin-bottom: 14px; }
+.card__row { display: flex; gap: 16px; }
+.card__cell { min-width: 72px; width: 72px; }
+.card__cell--grow { flex: 1; width: auto; }
+.card__input--name { text-transform: uppercase; letter-spacing: 0.04em; font-size: 0.9rem; }
+.card__stripe { display: block; height: 22%; margin-top: 8%; background: #0c1730; }
+.card__cvc { margin: 8% 8% 0 auto; width: 40%; padding: 8px 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.75); }
+.card__note { margin: auto 8% 0; font-size: 0.74rem; }
+
+/* A halo is a spread shadow, never a radial fill: a gradient behind an opaque card hides its own light under the card. */
+.glow {
+  position: absolute; inset: 0; border-radius: 18px; pointer-events: none;
+  opacity: 0; transition: opacity 0.6s var(--ease), box-shadow 0.6s var(--ease);
+}
+.glow--ok { opacity: 1; box-shadow: 0 0 26px 4px rgba(31, 181, 115, 0.45), 0 0 62px 18px rgba(31, 181, 115, 0.45); }
+.glow--error { opacity: 1; box-shadow: 0 0 26px 4px rgba(224, 64, 76, 0.4), 0 0 62px 18px rgba(224, 64, 76, 0.3); }
+
+/* Layout classes such as .field and .form__row set display, which would override the hidden attribute. */
+.pay [hidden], .pay-section [hidden] { display: none !important; }
+.payto { display: grid; gap: 22px; padding: 22px; border-radius: 18px; background: rgba(42, 100, 196, 0.06); box-shadow: inset 0 0 0 1px var(--hair-dark); }
+
+/* PayTo preview: a phone showing the approval request the family's bank will send. */
+.pay__phone { display: grid; justify-items: center; gap: 14px; }
+.phone {
+  position: relative; width: min(100%, 300px); aspect-ratio: 9 / 18.5; padding: 12px;
+  border-radius: 44px; background: #0c1730;
+  box-shadow: inset 0 0 0 2px #2a3550, 0 40px 70px -36px rgba(8, 26, 69, 0.6);
+  animation: fade-up 0.7s var(--ease-out);
+}
+.phone .glow { border-radius: 44px; }
+.phone__screen {
+  position: relative; height: 100%; padding: 46px 14px 14px; border-radius: 34px; overflow: hidden;
+  background:
+    radial-gradient(240px 260px at 20% 10%, rgba(142, 68, 214, 0.55), transparent 70%),
+    radial-gradient(260px 300px at 90% 85%, rgba(34, 195, 207, 0.4), transparent 70%),
+    linear-gradient(170deg, #143477, #0a1c4c);
+}
+.phone__time { text-align: center; font-family: var(--font-display); font-size: 3.4rem; line-height: 1; color: #fff; margin-bottom: 26px; }
+.phone__note {
+  padding: 16px; border-radius: 22px; color: var(--ink);
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+  animation: note-in 0.8s var(--ease-out) 0.3s both;
+}
+@keyframes note-in { from { opacity: 0; transform: translateY(-24px) scale(0.96); } }
+.phone__app { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #4f5d75; }
+.phone__title { margin-top: 6px; font-weight: 600; font-size: 0.98rem; }
+.phone__payee { margin-top: 2px; font-size: 0.86rem; color: #4f5d75; }
+.phone__rows { display: grid; gap: 8px; margin: 14px 0; padding-top: 12px; border-top: 1px solid rgba(8, 26, 69, 0.1); }
+.phone__rows div { display: flex; justify-content: space-between; gap: 12px; font-size: 0.82rem; }
+.phone__rows dt { color: #4f5d75; }
+.phone__rows dd { font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+.phone__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.phone__actions span { padding: 9px 0; border-radius: 12px; text-align: center; font-size: 0.86rem; font-weight: 600; background: rgba(8, 26, 69, 0.08); }
+.phone__actions span + span { color: #fff; background: #1e40b8; }
+.phone .glow--ok ~ .phone__screen .phone__actions span + span { animation: approve 2s var(--ease) infinite; }
+@keyframes approve { 0%, 100% { box-shadow: 0 0 0 0 rgba(30, 64, 184, 0.5); } 60% { box-shadow: 0 0 0 8px rgba(30, 64, 184, 0); } }
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 1080px) {
@@ -1087,7 +1221,8 @@ body.menu-open .book-bar { visibility: hidden; }
   .stats { grid-template-columns: 1fr; }
   .stat, .stat + .stat { padding: 0 0 32px; border-right: 0; border-bottom: 1px solid var(--hair-light); }
   .stat:last-child { border-bottom: 0; }
-  .form__row { grid-template-columns: 1fr; }
+  .form__row, .pay { grid-template-columns: 1fr; }
+  .pay__card, .pay__phone { position: static; }
   .strip__list span { gap: 12px; padding-right: 12px; font-size: 1.05rem; }
   .book-bar {
     display: inline-flex; position: fixed; z-index: var(--z-nav);
@@ -1107,6 +1242,6 @@ body.menu-open .book-bar { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; }
-  .btn--primary, .btn--primary::after { animation: none; }
+  .btn--primary, .btn--primary::after, .phone, .phone__note, .phone__actions span { animation: none !important; }
   .js [data-reveal] { opacity: 1; transform: none; filter: none; }
 }
