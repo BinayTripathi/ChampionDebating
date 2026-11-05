@@ -13,7 +13,6 @@
   setUpNavState();
   setUpReveals();
   setUpTilt();
-  setUpCounters();
   setUpMotionCard();
   setUpMotionsTrack();
   setUpEnquiryForm();
@@ -99,37 +98,6 @@
         card.style.setProperty('--ry', '0deg');
       });
     });
-  }
-
-  function setUpCounters() {
-    const counters = document.querySelectorAll('[data-count]');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        observer.unobserve(entry.target);
-        animateCount(entry.target);
-      });
-    }, { threshold: 0.6 });
-    counters.forEach((node) => observer.observe(node));
-  }
-
-  function animateCount(node) {
-    const target = Number(node.dataset.count);
-    const output = node.querySelector('[data-count-value]') || node;
-    if (prefersReducedMotion) {
-      output.textContent = target;
-      return;
-    }
-    const duration = 2200;
-    const start = performance.now();
-
-    function tick(now) {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(2, -10 * progress);
-      output.textContent = Math.round(target * (progress === 1 ? 1 : eased));
-      if (progress < 1) requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
   }
 
   function setUpMotionCard() {

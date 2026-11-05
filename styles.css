@@ -500,21 +500,22 @@ ul { list-style: none; }
 
 /* ---------- Marquee ---------- */
 
-.marquee {
-  overflow: hidden;
+/* The skills taught, shown still and in full, rather than scrolling half out of view. */
+.strip {
   background: var(--paper);
   color: var(--blue);
   border-top: 1px solid var(--hair-dark);
   padding: 30px 0;
 }
-.marquee__track { display: flex; width: max-content; animation: marquee 48s linear infinite; }
-.marquee__track span {
-  display: inline-flex; align-items: center; gap: 48px; padding-right: 48px;
-  font-family: var(--font-display); font-style: italic; font-size: clamp(1.6rem, 3vw, 2.4rem);
+.strip__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 0; }
+.strip__list span {
+  display: inline-flex; align-items: center; gap: 28px; padding-right: 28px;
+  font-family: var(--font-display); font-style: italic; font-size: clamp(1.3rem, 2.2vw, 1.9rem);
   white-space: nowrap;
 }
-.marquee__track span::after { content: "✦"; font-style: normal; font-size: 0.9rem; color: var(--sky); }
-@keyframes marquee { to { transform: translateX(-50%); } }
+.strip__list span::after { content: "✦"; font-style: normal; font-size: 0.8rem; color: var(--sky); }
+.strip__list span:last-child { padding-right: 0; }
+.strip__list span:last-child::after { content: none; }
 
 /* ---------- Editorial split ---------- */
 
@@ -1087,6 +1088,7 @@ body.menu-open .book-bar { visibility: hidden; }
   .stat, .stat + .stat { padding: 0 0 32px; border-right: 0; border-bottom: 1px solid var(--hair-light); }
   .stat:last-child { border-bottom: 0; }
   .form__row { grid-template-columns: 1fr; }
+  .strip__list span { gap: 12px; padding-right: 12px; font-size: 1.05rem; }
   .book-bar {
     display: inline-flex; position: fixed; z-index: var(--z-nav);
     left: 16px; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom)); justify-content: center;
@@ -1105,6 +1107,6 @@ body.menu-open .book-bar { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; }
-  .marquee__track, .btn--primary, .btn--primary::after { animation: none; }
+  .btn--primary, .btn--primary::after { animation: none; }
   .js [data-reveal] { opacity: 1; transform: none; filter: none; }
 }
