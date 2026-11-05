@@ -1,11 +1,11 @@
-/* Champion Debating — editorial, in deep space navy with teal and gold actions and a sky-blue accent */
+/* Champion Debating — editorial, in deep space navy with royal blue and gold glass actions and a sky-blue accent */
 
 :root {
   --ink: #081a45;
   --ink-2: #0c2257;
   --blue: #0d2a63;
   --blue-bright: #2a64c4;
-  --teal: #22c3cf;
+  --royal: #2f62e8;
   --gold: #d8b062;
   --sky: #8fb9ea;
   --sky-soft: #c6dbf4;
@@ -22,6 +22,13 @@
 
   --hair-dark: rgba(18, 40, 74, 0.12);
   --hair-light: rgba(198, 219, 244, 0.16);
+
+  /* Frosted glass: a see-through fill, a blur of what is behind, a bright edge and a top highlight. */
+  --glass-blur: blur(20px) saturate(150%);
+  --glass-dark: rgba(255, 255, 255, 0.07);
+  --glass-dark-edge: rgba(255, 255, 255, 0.16);
+  --glass-light: rgba(255, 255, 255, 0.58);
+  --glass-light-edge: rgba(255, 255, 255, 0.85);
 
   --font-display: "Cormorant Garamond", "Cormorant", Georgia, serif;
   --font-body: "Manrope", "Segoe UI", system-ui, sans-serif;
@@ -151,16 +158,22 @@ ul { list-style: none; }
 /* ---------- Sections ---------- */
 
 .section { padding: var(--section-y) 0; position: relative; }
-.section--cream { background: var(--cream); }
-.section--paper { background: var(--paper); }
-.section--dark { background: var(--ink); color: var(--text-light); }
-.section--blue {
+.section--cream, .section--paper {
+  background:
+    radial-gradient(700px 480px at 88% 8%, rgba(34, 195, 207, 0.14), transparent 65%),
+    radial-gradient(640px 520px at 6% 92%, rgba(142, 68, 214, 0.1), transparent 65%),
+    radial-gradient(520px 420px at 50% 50%, rgba(42, 100, 196, 0.07), transparent 70%),
+    var(--paper);
+}
+.section--cream { background-color: var(--cream); }
+.section--dark, .section--blue {
   color: var(--text-light);
   background:
-    radial-gradient(900px 500px at 85% 0%, rgba(143, 185, 234, 0.14), transparent 60%),
-    radial-gradient(800px 600px at 0% 100%, rgba(8, 26, 69, 0.6), transparent 60%),
-    var(--blue);
+    radial-gradient(800px 520px at 85% 5%, rgba(142, 68, 214, 0.28), transparent 62%),
+    radial-gradient(760px 560px at 5% 95%, rgba(34, 195, 207, 0.16), transparent 62%),
+    var(--ink);
 }
+.section--blue { background-color: var(--blue); }
 
 .section-head { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: end; margin-bottom: clamp(56px, 7vw, 96px); }
 .section-head .lede { justify-self: end; }
@@ -191,14 +204,51 @@ ul { list-style: none; }
 .btn:hover .btn__icon { transform: translate(3px, -2px) scale(1.06); }
 .btn svg { width: 16px; height: 16px; }
 
-/* Navy text: white on these bright fills falls well below 4.5:1. */
-.btn--primary { background: var(--teal); color: var(--ink); box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.55); }
-.btn--primary .btn__icon { background: rgba(8, 26, 69, 0.12); }
-.btn--primary:hover { background: #4fd2db; }
+/* Booking is the one deep royal blue action on every page, in glossy glass. Being darker than the other
+   buttons, it gets a bright rim to separate it from the navy, a halo that pulses out every few seconds,
+   and a light that sweeps across it. */
+.btn--primary {
+  position: relative; overflow: hidden; isolation: isolate;
+  color: #fff;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, rgba(255, 255, 255, 0.04) 48%, transparent 52%),
+    linear-gradient(160deg, #2a52d4 0%, #1e40b8 50%, #16328f 100%);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--book-ring), 0 0 0 0 rgba(96, 146, 255, 0.55), 0 14px 30px -16px rgba(0, 0, 0, 0.55);
+  animation: book-pulse 3s ease-out 1s infinite;
+  --book-ring: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 0 0 1.5px rgba(140, 178, 255, 0.95);
+}
+@keyframes book-pulse {
+  0%, 40% { box-shadow: var(--book-ring), 0 0 0 0 rgba(96, 146, 255, 0.55), 0 14px 30px -16px rgba(0, 0, 0, 0.55); }
+  100% { box-shadow: var(--book-ring), 0 0 0 12px rgba(96, 146, 255, 0), 0 14px 30px -16px rgba(0, 0, 0, 0.55); }
+}
+/* The arrow is drawn in the logo red, tying the booking button to the brand. It sits on an ice blue
+   circle: on a translucent one the red arrow nearly vanished against the blue. */
+.btn--primary .btn__icon { background: #dbe6ff; color: #b41c24; }
+.btn--primary .btn__icon svg { stroke-width: 1.8; }
+.btn--primary:hover { filter: brightness(1.08); }
+.btn--primary::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(110deg, transparent 35%, rgba(255, 255, 255, 0.6) 50%, transparent 65%);
+  transform: translateX(-120%);
+  animation: shine 6s ease-in-out 2s infinite;
+}
+@keyframes shine { 0%, 65% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
 
-.btn--gold, .nav .btn--primary { background: var(--gold); color: var(--ink); box-shadow: 0 14px 30px -16px rgba(0, 0, 0, 0.55); }
-.btn--gold .btn__icon, .nav .btn--primary .btn__icon { background: rgba(8, 26, 69, 0.12); }
-.btn--gold:hover, .nav .btn--primary:hover { background: #e4c27f; }
+/* Gold glass: mostly opaque gold under a glossy top sheen and a bright rim, a step quieter than the booking blue.
+   Navy text, since light text on gold falls below 4.5:1. */
+.btn--gold {
+  color: var(--ink);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.08) 48%, transparent 52%),
+    linear-gradient(160deg, rgba(240, 206, 132, 0.92) 0%, rgba(206, 164, 86, 0.86) 100%);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 0 0 1px rgba(255, 232, 178, 0.7), 0 14px 30px -16px rgba(0, 0, 0, 0.55);
+}
+.btn--gold .btn__icon { background: rgba(8, 26, 69, 0.12); }
+.btn--gold:hover { filter: brightness(1.06); }
 
 .btn--ink { background: var(--ink); color: var(--cream); }
 .btn--ink .btn__icon { background: rgba(238, 243, 249, 0.12); }
@@ -223,26 +273,32 @@ ul { list-style: none; }
 .bezel {
   padding: var(--bezel-pad);
   border-radius: var(--radius);
-  background: rgba(18, 40, 74, 0.035);
-  box-shadow: inset 0 0 0 1px var(--hair-dark);
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 0 0 1px var(--glass-light-edge);
 }
 .bezel__core {
   height: 100%;
   border-radius: calc(var(--radius) - var(--bezel-pad));
-  background: var(--paper);
+  background: var(--glass-light);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
   padding: clamp(28px, 3.4vw, 48px);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.9), 0 40px 80px -48px rgba(18, 40, 74, 0.35);
+  box-shadow: inset 0 1px 0 #fff, inset 0 0 0 1px var(--glass-light-edge), 0 40px 80px -48px rgba(18, 40, 74, 0.35);
   position: relative;
   overflow: hidden;
 }
 .on-dark .bezel, .bezel--dark {
-  background: rgba(198, 219, 244, 0.035);
-  box-shadow: inset 0 0 0 1px var(--hair-light);
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--glass-dark-edge);
 }
 .on-dark .bezel__core, .bezel--dark .bezel__core {
   color: var(--text-light);
-  background: linear-gradient(170deg, #143477 0%, #0a1c4c 100%);
-  box-shadow: inset 0 1px 1px rgba(198, 219, 244, 0.14), 0 50px 90px -50px rgba(0, 0, 0, 0.8);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.12) 0%, var(--glass-dark) 45%, rgba(255, 255, 255, 0.03) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 0 0 1px var(--glass-dark-edge), 0 50px 90px -50px rgba(0, 0, 0, 0.8);
+}
+/* The one dark card on a light section keeps a navy tint under the glass, or its light text would sit on white. */
+.bezel--dark .bezel__core {
+  background: linear-gradient(160deg, rgba(42, 80, 170, 0.82) 0%, rgba(10, 28, 76, 0.9) 100%);
 }
 
 /* ---------- 3D tilt ---------- */
@@ -279,13 +335,14 @@ ul { list-style: none; }
   padding: 7px 7px 7px 20px;
   border-radius: 999px;
   color: var(--text-light);
-  background: rgba(8, 26, 69, 0.88);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  backdrop-filter: blur(18px) saturate(140%);
-  box-shadow: inset 0 0 0 1px var(--hair-light), 0 24px 48px -24px rgba(0, 0, 0, 0.6);
+  background: rgba(10, 28, 76, 0.42);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 0 0 1px var(--glass-dark-edge), 0 24px 48px -24px rgba(0, 0, 0, 0.6);
   transition: background-color 0.6s var(--ease), top 0s;
 }
-.nav.is-scrolled { background: rgba(8, 26, 69, 0.94); }
+/* Over the light sections the bar needs more body to stay readable. */
+.nav.is-scrolled { background: rgba(10, 28, 76, 0.72); }
 
 .brand { display: inline-flex; align-items: center; gap: 12px; margin-right: 18px; }
 .brand__mark { width: 40px; height: 40px; object-fit: contain; }
@@ -358,9 +415,9 @@ ul { list-style: none; }
   gap: 40px;
   padding: 120px 28px 48px;
   color: var(--text-light);
-  background: rgba(8, 26, 69, 0.92);
-  -webkit-backdrop-filter: blur(30px);
-  backdrop-filter: blur(30px);
+  background: rgba(10, 28, 76, 0.7);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  backdrop-filter: blur(30px) saturate(150%);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.6s var(--ease), visibility 0s linear 0.6s;
@@ -536,7 +593,11 @@ ul { list-style: none; }
 
 /* ---------- Timetable, session support, coaches, workshops ---------- */
 
-.timetable { overflow-x: auto; border-radius: 1.6rem; box-shadow: inset 0 0 0 1px var(--hair-light); }
+.timetable {
+  overflow-x: auto; border-radius: 1.6rem;
+  background: var(--glass-dark); -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 0 0 1px var(--glass-dark-edge);
+}
 .timetable table { width: 100%; min-width: 680px; border-collapse: collapse; }
 .timetable th { padding: 20px 24px; text-align: left; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sky-soft); }
 .timetable td { padding: 20px 24px; border-top: 1px solid var(--hair-light); color: var(--text-light-muted); }
@@ -749,9 +810,9 @@ ul { list-style: none; }
   padding: clamp(48px, 8vw, 112px);
   text-align: center;
   background:
-    radial-gradient(700px 360px at 50% 120%, rgba(143, 185, 234, 0.3), transparent 70%),
-    radial-gradient(600px 400px at 50% -20%, rgba(74, 140, 214, 0.5), transparent 70%),
-    linear-gradient(170deg, #143477 0%, #0a1c4c 100%);
+    radial-gradient(700px 360px at 50% 120%, rgba(34, 195, 207, 0.18), transparent 70%),
+    radial-gradient(600px 400px at 50% -20%, rgba(142, 68, 214, 0.22), transparent 70%),
+    linear-gradient(160deg, rgba(255, 255, 255, 0.12) 0%, var(--glass-dark) 45%, rgba(255, 255, 255, 0.03) 100%);
 }
 .cta .h2 { max-width: 14ch; margin: 0 auto 28px; }
 .cta .lede { margin: 0 auto 44px; }
@@ -1044,6 +1105,6 @@ body.menu-open .book-bar { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; }
-  .marquee__track { animation: none; }
+  .marquee__track, .btn--primary, .btn--primary::after { animation: none; }
   .js [data-reveal] { opacity: 1; transform: none; filter: none; }
 }
