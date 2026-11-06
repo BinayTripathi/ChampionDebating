@@ -14,7 +14,6 @@
   setUpReveals();
   setUpTilt();
   setUpMotionCard();
-  setUpMotionsTrack();
   setUpEnquiryForm();
 
   document.querySelectorAll('[data-year]').forEach((node) => {
@@ -151,18 +150,6 @@
     const firstMonday = Date.UTC(2026, 0, 5);
     const weeks = Math.floor((today - firstMonday) / (7 * 24 * 60 * 60 * 1000));
     return Math.max(0, weeks);
-  }
-
-  function setUpMotionsTrack() {
-    const track = document.getElementById('motions-track');
-    if (!track) return;
-    document.querySelectorAll('[data-motions-scroll]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const card = track.querySelector('.motions__card');
-        const step = card.getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
-        track.scrollBy({ left: step * Number(button.dataset.motionsScroll), behavior: prefersReducedMotion ? 'auto' : 'smooth' });
-      });
-    });
   }
 
   // No backend yet: validate in the browser and show the confirmation state.
