@@ -16,7 +16,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
-const PAGES = ['index.html', 'programs.html', 'coaches.html', 'competitions.html', 'contact.html', 'pay.html'];
+const PAGES = ['index.html', 'programs.html', 'coaches.html', 'competitions.html', 'contact.html', 'refer.html', 'pay.html'];
 const { siteUrl } = JSON.parse(readFileSync(join(root, 'site.config.json'), 'utf8'));
 const { translations, keep } = JSON.parse(readFileSync(join(root, 'i18n/zh.json'), 'utf8'));
 const keepSet = new Set(keep);

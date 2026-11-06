@@ -4,9 +4,11 @@
   const TEXT = document.documentElement.lang.startsWith('zh') ? {
     openMenu: '打开菜单', closeMenu: '关闭菜单', sent: '谢谢！我们已收到您的咨询。',
     required: '请填写此项。', email: '请输入有效的邮箱地址。', phone: '请输入有效的手机号码。', invalid: '请检查此项。',
+    newFamily: '推荐链接仅限新客户使用。', copied: '已复制', shareText: (link) => `推荐您了解冠军辩论的英语辩论课程。使用这个链接预约免费体验课（仅限新客户）：${link}`,
   } : {
     openMenu: 'Open menu', closeMenu: 'Close menu', sent: 'Thank you. Your enquiry has been received.',
     required: 'Please fill in this field.', email: 'Please enter a valid email address.', phone: 'Please enter a valid mobile number.', invalid: 'Please check this field.',
+    newFamily: 'Referral links are for new customers only.', copied: 'Copied', shareText: (link) => `I recommend Champion Debating. Book a free trial class with my referral link (new customers only): ${link}`,
   };
 
   setUpMenu();
@@ -15,6 +17,8 @@
   setUpTilt();
   setUpMotionCard();
   setUpEnquiryForm();
+  setUpReferredBooking();
+  setUpReferralLink();
 
   document.querySelectorAll('[data-year]').forEach((node) => {
     node.textContent = new Date().getFullYear();
@@ -182,7 +186,68 @@
     });
   }
 
+  // A referral link opens the booking form with ?ref=<name>. No backend yet, so the "new customers only"
+  // rule is a declaration here; checking it against enrolled families needs the booking system.
+  function setUpReferredBooking() {
+    const panel = document.querySelector('[data-referred]');
+    if (!panel) return;
+    const referrer = getReferrerName(new URLSearchParams(location.search).get('ref'));
+    if (!referrer) return;
+    panel.querySelector('[data-referrer]').textContent = referrer;
+    panel.querySelector('[name="referredBy"]').value = referrer;
+    panel.querySelector('#new-family').required = true;
+    panel.hidden = false;
+  }
+
+  // Comes from the address bar or a form, so only a short run of name characters is kept.
+  function getReferrerName(value) {
+    const name = (value || '').trim().slice(0, 40);
+    return /^[\p{L}][\p{L}\p{M} .'’-]*$/u.test(name) ? name : '';
+  }
+
+  function setUpReferralLink() {
+    const form = document.querySelector('[data-referral-form]');
+    if (!form) return;
+    const input = form.querySelector('#referrer-name');
+    const error = form.querySelector('#referrer-name-error');
+    const result = document.querySelector('[data-referral-result]');
+    const output = result.querySelector('#referral-link');
+    const copyLabel = result.querySelector('[data-copy-label]');
+    const status = document.querySelector('[data-referral-status]');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = getReferrerName(input.value);
+      input.setAttribute('aria-invalid', String(!name));
+      error.textContent = name ? '' : input.value.trim() ? TEXT.invalid : TEXT.required;
+      if (!name) {
+        input.focus();
+        return;
+      }
+      const url = new URL('contact.html', location.href);
+      url.searchParams.set('ref', name);
+      url.hash = 'book';
+      output.value = url.href;
+      result.querySelector('[data-whatsapp-link]').href = `https://wa.me/?text=${encodeURIComponent(TEXT.shareText(url.href))}`;
+      result.hidden = false;
+      output.focus();
+      output.select();
+    });
+
+    result.querySelector('[data-copy-link]').addEventListener('click', async () => {
+      output.select();
+      try {
+        await navigator.clipboard.writeText(output.value);
+      } catch {
+        document.execCommand('copy');
+      }
+      copyLabel.textContent = TEXT.copied;
+      status.textContent = TEXT.copied;
+    });
+  }
+
   function getErrorMessage(field) {
+    if (field.id === 'new-family') return TEXT.newFamily;
     if (field.validity.valueMissing) return TEXT.required;
     if (field.validity.typeMismatch) return TEXT.email;
     if (field.validity.patternMismatch && field.type === 'tel') return TEXT.phone;
