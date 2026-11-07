@@ -20,7 +20,7 @@ const PAGES = ['index.html', 'programs.html', 'coaches.html', 'competitions.html
 const { siteUrl } = JSON.parse(readFileSync(join(root, 'site.config.json'), 'utf8'));
 const { translations, keep } = JSON.parse(readFileSync(join(root, 'i18n/zh.json'), 'utf8'));
 const keepSet = new Set(keep);
-const CJK_FONT = '<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500&display=swap" rel="stylesheet">';
+const CJK_FONT = '<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">';
 
 const decode = (s) => s.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 const plain = (s) => decode(s.replace(/<[^>]+>/g, ''));
