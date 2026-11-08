@@ -26,6 +26,7 @@
   const amount = form.querySelector('#pay-amount');
   const email = form.querySelector('#pay-email');
   const student = form.querySelector('#pay-student');
+  const payer = form.querySelector('#pay-payer');
   const mobile = form.querySelector('#pay-mobile');
   const amountField = form.querySelector('[data-amount-field]');
   const total = form.querySelector('[data-total]');
@@ -69,6 +70,7 @@
     const errors = [
       [amount, amount.required && !getTotal() ? TEXT.amount : ''],
       [student, student.value.trim().length > 1 ? '' : TEXT.required],
+      [payer, payer.value.trim().length > 1 ? '' : TEXT.required],
       [email, getEmailError()],
       [mobile, getMobileError()],
     ];
@@ -93,6 +95,7 @@
         // The server charges its own price for a fixed item, so this figure only counts for term fees.
         amount: Math.round(getTotal() * 100),
         studentName: student.value.trim(),
+        payerName: payer.value.trim(),
         payerEmail: email.value.trim(),
         payerMobile: mobile.value.trim(),
         turnstileToken: humanCheck.getToken(),
