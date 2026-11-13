@@ -1,11 +1,11 @@
-# Publishes a preview of the site to GitHub Pages on every push to main.
+# Publishes a preview of the site to GitHub Pages on every push to main or widget-trial.
 # Production is hosted on AWS; this preview is kept out of search engines so
 # it never competes with the production domain.
 name: Preview on GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches: [main, widget-trial]
   workflow_dispatch:
 
 permissions:
