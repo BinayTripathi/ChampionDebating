@@ -1,5 +1,5 @@
 /*
- * Connects the site's forms to the Attendly Starter API. Set these after Starter is deployed:
+ * Connects the site's forms to the AcadEasy Starter API. Set these after Starter is deployed:
  * - baseUrl: the stack's SiteUrl output, with no trailing slash. Empty keeps the forms switched off.
  * - turnstileSiteKey: Cloudflare Turnstile's public site key.
  * - centreSlug: the --slug given to add-centre.
