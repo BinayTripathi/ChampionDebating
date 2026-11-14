@@ -238,147 +238,13 @@
           </aside>
         </div>
 
-        <div class="bezel book" id="book" data-reveal style="--d:120ms" data-enquiry>
+        <div class="bezel book" id="book" data-reveal style="--d:120ms">
           <div class="bezel__core">
             <h2 class="h3 book__title">预约免费体验课</h2>
             <p class="muted book__lede">请告诉我们孩子的情况，我们会尽快与您联系安排时间。</p>
-            <form class="form" novalidate>
-              <div class="referred" data-referred hidden>
-                <p>推荐人： <b data-referrer></b>。推荐链接仅限新客户使用。</p>
-                <input type="hidden" name="referredBy">
-                <input type="hidden" name="referrerMobileEnd">
-                <label class="referred__check"><input id="new-family" type="checkbox" name="newFamily" aria-describedby="new-family-error"><span>我们是冠军辩论的新客户</span></label>
-                <span class="field__error" id="new-family-error"></span>
-              </div>
-              <div class="field">
-                <label for="interest">我感兴趣的是</label>
-                <select id="interest" name="interest">
-                  <option value="trial" selected>免费体验课</option>
-                  <option value="term">学期课程</option>
-                  <option value="elite">精英组 / VST</option>
-                  <option value="competitions">线上赛事</option>
-                  <option value="workshops">工作坊系列</option>
-                </select>
-              </div>
-              <div class="form__row">
-                <div class="field">
-                  <label for="student-name">学生全名</label>
-                  <input id="student-name" name="studentName" type="text" autocomplete="off" required aria-describedby="student-name-error">
-                  <span class="field__error" id="student-name-error"></span>
-                </div>
-                <div class="field">
-                  <label for="school">学生就读学校</label>
-                  <input id="school" name="school" type="text" autocomplete="off" required aria-describedby="school-error">
-                  <span class="field__error" id="school-error"></span>
-                </div>
-              </div>
-              <div class="form__row">
-                <div class="field">
-                  <label for="year">学生年级</label>
-                  <select id="year" name="year" required aria-describedby="year-error">
-                    <option value="">请选择年级</option>
-                    <option value="Year 3–4">三至四年级</option>
-                    <option value="Year 5–6">五至六年级</option>
-                    <option value="Year 7">七年级</option>
-                    <option value="Year 8">八年级</option>
-                    <option value="Year 9">九年级</option>
-                    <option value="Year 10 and above">十年级及以上</option>
-                  </select>
-                  <span class="field__error" id="year-error"></span>
-                </div>
-                <div class="field">
-                  <label for="campus">首选校区</label>
-                  <select id="campus" name="campus" required aria-describedby="campus-error">
-                    <option value="">请选择校区</option>
-                    <option value="Balwyn">Balwyn</option>
-                    <option value="Glen Waverley">Glen Waverley</option>
-                    <option value="Online Lesson">线上课程</option>
-                  </select>
-                  <span class="field__error" id="campus-error"></span>
-                </div>
-              </div>
-              <div class="form__row form__row--phone">
-                <div class="field">
-                  <label for="country">国家/地区</label>
-                  <select id="country" name="country" autocomplete="tel-country-code" required aria-describedby="country-error">
-                    <option value="Australia (+61)" selected>澳大利亚 (+61)</option>
-                    <option value="China (+86)">中国 (+86)</option>
-                    <option value="New Zealand (+64)">新西兰 (+64)</option>
-                    <option value="Hong Kong (+852)">中国香港 (+852)</option>
-                    <option value="Singapore (+65)">新加坡 (+65)</option>
-                    <option value="Malaysia (+60)">马来西亚 (+60)</option>
-                    <option value="India (+91)">印度 (+91)</option>
-                    <option value="Other">其他</option>
-                  </select>
-                  <span class="field__error" id="country-error"></span>
-                </div>
-                <div class="field">
-                  <label for="mobile">家长手机号码</label>
-                  <input id="mobile" name="mobile" type="tel" autocomplete="tel-national" pattern="[0-9 +]{8,20}" maxlength="20" required aria-describedby="mobile-error">
-                  <span class="field__error" id="mobile-error"></span>
-                </div>
-              </div>
-              <div class="form__row">
-                <div class="field">
-                  <label for="parent-email">家长邮箱</label>
-                  <input id="parent-email" name="email" type="email" autocomplete="email" required aria-describedby="parent-email-error">
-                  <span class="field__error" id="parent-email-error"></span>
-                </div>
-                <div class="field">
-                  <label for="wechat">家长微信号 <span class="muted">（选填）</span></label>
-                  <input id="wechat" name="wechat" type="text" autocomplete="off" maxlength="40">
-                </div>
-              </div>
-              <fieldset class="field">
-                <legend>您希望我们如何联系您？ <span aria-hidden="true">*</span></legend>
-                <div class="radio-list">
-                  <label><input id="contact-method" type="radio" name="contactMethod" value="WhatsApp" required aria-describedby="contact-method-error"><span>WhatsApp</span></label>
-                  <label><input type="radio" name="contactMethod" value="Call"><span>电话</span></label>
-                  <label><input type="radio" name="contactMethod" value="Text"><span>短信</span></label>
-                  <label><input type="radio" name="contactMethod" value="Email"><span>邮件</span></label>
-                  <label><input type="radio" name="contactMethod" value="WeChat"><span>微信</span></label>
-                </div>
-                <span class="field__error" id="contact-method-error"></span>
-              </fieldset>
-              <div data-human-check></div>
-              <div>
-                <button class="btn btn--primary" type="submit">预约免费体验课
-                  <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
-                </button>
-              </div>
-              <p class="field__error" role="alert" data-form-error></p>
-            </form>
-            <div class="form-success" tabindex="-1">
-              <svg class="quote__mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" aria-hidden="true"><path d="M8 34 11 15l8 8 5-14 5 14 8-8 3 19z"/><path d="M8 39h32"/></svg>
-              <h3 class="h3">谢谢！</h3>
-              <p class="muted" style="margin-top:12px">我们已收到您的咨询，将尽快与您联系。</p>
-              <div class="qr-codes">
-                <figure class="qr">
-                  <a href="https://wa.me/61470613864"><img src="../qr-whatsapp.svg?v=2" alt="扫描二维码，通过 WhatsApp 联系冠军辩论" width="148" height="148" loading="lazy"></a>
-                  <figcaption><b>WhatsApp</b><a href="https://wa.me/61470613864">+61 470 613 864</a></figcaption>
-                </figure>
-                <figure class="qr">
-                  <img src="../qr-wechat.png" alt="扫描二维码，添加冠军辩论微信" width="148" height="148" loading="lazy">
-                  <figcaption><b>微信</b>扫码添加我们</figcaption>
-                </figure>
-              </div>
-            </div>
-            <p class="sr-only" role="status" aria-live="polite"></p>
+            <acadeasy-trial border-color="#f94e4e" title="Book a trial class"></acadeasy-trial>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="section section--cream" id="trial" aria-labelledby="trial-title">
-      <div class="container">
-        <div class="section-head">
-          <div data-reveal>
-            <span class="eyebrow">免费体验</span>
-            <h2 class="h2" id="trial-title">预约<em>体验</em>课。</h2>
-          </div>
-          <p class="lede" data-reveal style="--d:120ms">请在下方选择实际上课时间，我们会通过邮件确认。</p>
-        </div>
-        <acadeasy-trial title="Book a trial class"></acadeasy-trial>
       </div>
     </section>
 
@@ -390,7 +256,7 @@
             <h2 class="h2" id="ask-title">咨询课程。</h2>
           </div>
         </div>
-        <acadeasy-enquiry title="Enquire about a class"></acadeasy-enquiry>
+        <acadeasy-enquiry border-color="#f94e4e" title="Enquire about a class"></acadeasy-enquiry>
       </div>
     </section>
 

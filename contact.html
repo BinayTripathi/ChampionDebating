@@ -237,147 +237,13 @@
           </aside>
         </div>
 
-        <div class="bezel book" id="book" data-reveal style="--d:120ms" data-enquiry>
+        <div class="bezel book" id="book" data-reveal style="--d:120ms">
           <div class="bezel__core">
             <h2 class="h3 book__title">Book a free trial class</h2>
             <p class="muted book__lede">Tell us about your child and we’ll be in touch to arrange a time.</p>
-            <form class="form" novalidate>
-              <div class="referred" data-referred hidden>
-                <p>Referred by <b data-referrer></b>. Referral links are for new customers only.</p>
-                <input type="hidden" name="referredBy">
-                <input type="hidden" name="referrerMobileEnd">
-                <label class="referred__check"><input id="new-family" type="checkbox" name="newFamily" aria-describedby="new-family-error"><span>We’re new to Champion Debating</span></label>
-                <span class="field__error" id="new-family-error"></span>
-              </div>
-              <div class="field">
-                <label for="interest">I’m interested in</label>
-                <select id="interest" name="interest">
-                  <option value="trial" selected>A free trial</option>
-                  <option value="term">Term classes</option>
-                  <option value="elite">Elite / VST</option>
-                  <option value="competitions">Online competitions</option>
-                  <option value="workshops">Workshop series</option>
-                </select>
-              </div>
-              <div class="form__row">
-                <div class="field">
-                  <label for="student-name">Student’s full name</label>
-                  <input id="student-name" name="studentName" type="text" autocomplete="off" required aria-describedby="student-name-error">
-                  <span class="field__error" id="student-name-error"></span>
-                </div>
-                <div class="field">
-                  <label for="school">Student’s school</label>
-                  <input id="school" name="school" type="text" autocomplete="off" required aria-describedby="school-error">
-                  <span class="field__error" id="school-error"></span>
-                </div>
-              </div>
-              <div class="form__row">
-                <div class="field">
-                  <label for="year">Student’s grade</label>
-                  <select id="year" name="year" required aria-describedby="year-error">
-                    <option value="">Choose a grade</option>
-                    <option value="Year 3–4">Year 3–4</option>
-                    <option value="Year 5–6">Year 5–6</option>
-                    <option value="Year 7">Year 7</option>
-                    <option value="Year 8">Year 8</option>
-                    <option value="Year 9">Year 9</option>
-                    <option value="Year 10 and above">Year 10 &amp; above</option>
-                  </select>
-                  <span class="field__error" id="year-error"></span>
-                </div>
-                <div class="field">
-                  <label for="campus">Preferred campus</label>
-                  <select id="campus" name="campus" required aria-describedby="campus-error">
-                    <option value="">Choose a campus</option>
-                    <option value="Balwyn">Balwyn</option>
-                    <option value="Glen Waverley">Glen Waverley</option>
-                    <option value="Online Lesson">Online Lesson</option>
-                  </select>
-                  <span class="field__error" id="campus-error"></span>
-                </div>
-              </div>
-              <div class="form__row form__row--phone">
-                <div class="field">
-                  <label for="country">Country</label>
-                  <select id="country" name="country" autocomplete="tel-country-code" required aria-describedby="country-error">
-                    <option value="Australia (+61)" selected>Australia (+61)</option>
-                    <option value="China (+86)">China (+86)</option>
-                    <option value="New Zealand (+64)">New Zealand (+64)</option>
-                    <option value="Hong Kong (+852)">Hong Kong (+852)</option>
-                    <option value="Singapore (+65)">Singapore (+65)</option>
-                    <option value="Malaysia (+60)">Malaysia (+60)</option>
-                    <option value="India (+91)">India (+91)</option>
-                    <option value="Other">Other</option>
-                  </select>
-                  <span class="field__error" id="country-error"></span>
-                </div>
-                <div class="field">
-                  <label for="mobile">Parent’s mobile</label>
-                  <input id="mobile" name="mobile" type="tel" autocomplete="tel-national" pattern="[0-9 +]{8,20}" maxlength="20" required aria-describedby="mobile-error">
-                  <span class="field__error" id="mobile-error"></span>
-                </div>
-              </div>
-              <div class="form__row">
-                <div class="field">
-                  <label for="parent-email">Parent’s email</label>
-                  <input id="parent-email" name="email" type="email" autocomplete="email" required aria-describedby="parent-email-error">
-                  <span class="field__error" id="parent-email-error"></span>
-                </div>
-                <div class="field">
-                  <label for="wechat">Parent’s WeChat ID <span class="muted">(optional)</span></label>
-                  <input id="wechat" name="wechat" type="text" autocomplete="off" maxlength="40">
-                </div>
-              </div>
-              <fieldset class="field">
-                <legend>How would you like to be contacted? <span aria-hidden="true">*</span></legend>
-                <div class="radio-list">
-                  <label><input id="contact-method" type="radio" name="contactMethod" value="WhatsApp" required aria-describedby="contact-method-error"><span>WhatsApp</span></label>
-                  <label><input type="radio" name="contactMethod" value="Call"><span>Call</span></label>
-                  <label><input type="radio" name="contactMethod" value="Text"><span>Text</span></label>
-                  <label><input type="radio" name="contactMethod" value="Email"><span>Email</span></label>
-                  <label><input type="radio" name="contactMethod" value="WeChat"><span>WeChat</span></label>
-                </div>
-                <span class="field__error" id="contact-method-error"></span>
-              </fieldset>
-              <div data-human-check></div>
-              <div>
-                <button class="btn btn--primary" type="submit">Book my free trial
-                  <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
-                </button>
-              </div>
-              <p class="field__error" role="alert" data-form-error></p>
-            </form>
-            <div class="form-success" tabindex="-1">
-              <svg class="quote__mark" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1" stroke-linejoin="round" aria-hidden="true"><path d="M8 34 11 15l8 8 5-14 5 14 8-8 3 19z"/><path d="M8 39h32"/></svg>
-              <h3 class="h3">Thank you.</h3>
-              <p class="muted" style="margin-top:12px">We’ve received your enquiry and will be in touch soon.</p>
-              <div class="qr-codes">
-                <figure class="qr">
-                  <a href="https://wa.me/61470613864"><img src="qr-whatsapp.svg?v=2" alt="QR code to message Champion Debating on WhatsApp" width="148" height="148" loading="lazy"></a>
-                  <figcaption><b>WhatsApp</b><a href="https://wa.me/61470613864">+61 470 613 864</a></figcaption>
-                </figure>
-                <figure class="qr">
-                  <img src="qr-wechat.png" alt="QR code to add Champion Debating on WeChat" width="148" height="148" loading="lazy">
-                  <figcaption><b>WeChat</b>Scan to add us</figcaption>
-                </figure>
-              </div>
-            </div>
-            <p class="sr-only" role="status" aria-live="polite"></p>
+            <acadeasy-trial border-color="#f94e4e" title="Book a trial class"></acadeasy-trial>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="section section--cream" id="trial" aria-labelledby="trial-title">
-      <div class="container">
-        <div class="section-head">
-          <div data-reveal>
-            <span class="eyebrow">Free trial</span>
-            <h2 class="h2" id="trial-title">Book a <em>trial</em> class.</h2>
-          </div>
-          <p class="lede" data-reveal style="--d:120ms">Pick a real class time below. We confirm by email.</p>
-        </div>
-        <acadeasy-trial title="Book a trial class"></acadeasy-trial>
       </div>
     </section>
 
@@ -389,7 +255,7 @@
             <h2 class="h2" id="ask-title">Ask about a class.</h2>
           </div>
         </div>
-        <acadeasy-enquiry title="Enquire about a class"></acadeasy-enquiry>
+        <acadeasy-enquiry border-color="#f94e4e" title="Enquire about a class"></acadeasy-enquiry>
       </div>
     </section>
 
