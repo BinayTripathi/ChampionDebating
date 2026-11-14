@@ -9,7 +9,8 @@
   <link rel="canonical" href="https://www.championdebating.com.au/zh/pay.html">
   <link rel="alternate" hreflang="en-AU" href="https://www.championdebating.com.au/pay.html">
   <link rel="alternate" hreflang="zh-Hans" href="https://www.championdebating.com.au/zh/pay.html">
-  <link rel="alternate" hreflang="x-default" href="https://www.championdebating.com.au/pay.html">
+  <link rel="alternate" hreflang="x-default" href="https://www.championdebating.com.au/pay.html">
+
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Champion Debating">
   <meta property="og:locale" content="zh_CN">
@@ -19,7 +20,7 @@
   <meta property="og:image" content="https://www.championdebating.com.au/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="冠军辩论标志及标语：找到你的声音，赢得每一场辩论。">
+  <meta property="og:image:alt" content="冠军辩论标志及标语：思维更敏锐，表达更出色。">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#2f62c0">
   <script>document.documentElement.classList.add('js');</script>
@@ -29,7 +30,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-  <link rel="stylesheet" href="../styles.css?v=90">
+  <link rel="stylesheet" href="../styles.css?v=92">
   <script src="https://js.stripe.com/endive/stripe.js"></script>
 </head>
 <body>
@@ -106,6 +107,11 @@
                 <input id="pay-student" name="studentName" type="text" autocomplete="off" required aria-describedby="pay-student-error">
                 <span class="field__error" id="pay-student-error"></span>
               </div>
+              <div class="field">
+                <label for="pay-payer">家长姓名</label>
+                <input id="pay-payer" name="payerName" type="text" autocomplete="name" maxlength="100" required aria-describedby="pay-payer-error">
+                <span class="field__error" id="pay-payer-error"></span>
+              </div>
               <div class="form__row">
                 <div class="field">
                   <label for="pay-email">接收收据的家长邮箱</label>
@@ -156,7 +162,7 @@
           <p class="footer__blurb">墨尔本及线上英语辩论培训，覆盖小学到精英竞赛各阶段。</p>
           <div class="qr-codes">
             <figure class="qr">
-              <a href="https://wa.me/61416059885"><img src="../qr-whatsapp.svg" alt="扫描二维码，通过 WhatsApp 联系冠军辩论" width="112" height="112" loading="lazy"></a>
+              <a href="https://wa.me/61470613864"><img src="../qr-whatsapp.svg?v=2" alt="扫描二维码，通过 WhatsApp 联系冠军辩论" width="112" height="112" loading="lazy"></a>
               <figcaption><b>WhatsApp</b>扫码联系我们</figcaption>
             </figure>
             <figure class="qr">
@@ -170,7 +176,6 @@
           <ul>
             <li><a href="programs.html#programs">学期课程</a></li>
             <li><a href="programs.html#timetable">课表</a></li>
-            <li><a href="programs.html#fees">学费与政策</a></li>
             <li><a href="competitions.html#workshops">2026 工作坊系列</a></li>
           </ul>
         </div>
@@ -185,7 +190,7 @@
         <div>
           <h2>联系我们</h2>
           <ul>
-            <li><a href="https://wa.me/61416059885">WhatsApp：+61 416 059 885</a></li>
+            <li><a href="https://wa.me/61470613864">WhatsApp：+61 470 613 864</a></li>
             <li>255 Whitehorse Road, Balwyn</li>
             <li><a href="contact.html#book">预约免费体验课</a></li>
             <li><a href="refer.html">推荐新家庭，获 $50</a></li>
@@ -203,6 +208,6 @@
 
   <script src="../api.js?v=1" defer></script>
   <script src="../main.js?v=16" defer></script>
-  <script src="../pay.js?v=6" defer></script>
+  <script src="../pay.js?v=7" defer></script>
 </body>
 </html>
