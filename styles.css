@@ -4,6 +4,7 @@
   --ink: #081a45;
   --ink-2: #0c2257;
   --blue: #0d2a63;
+  --debating-red: #c8202f;
   --blue-bright: #2a64c4;
   --royal: #2f62e8;
   --gold: #d8b062;
@@ -374,7 +375,7 @@ ul { list-style: none; }
 .brand__word span { font-size: 0.86rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--sky-soft); margin-top: 3px; }
 
 .nav .brand__word b { font-size: 1.75rem; font-weight: 600; }
-.nav .brand__word span { font-size: 1.05rem; color: var(--blue); }
+.nav .brand__word span { font-size: 1.05rem; color: var(--debating-red); }
 .nav__links { display: flex; gap: 4px; margin: 0 auto; }
 .nav__links a {
   padding: 12px 20px;
