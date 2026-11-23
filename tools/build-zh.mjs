@@ -44,7 +44,7 @@ const enUrl = (page) => (page === 'index.html' ? `${siteUrl}/` : `${siteUrl}/${p
 
 // Page URLs move under /zh/; the shared organisation, website and image URLs do not.
 function toZhUrl(value) {
-  if (/\/#(organization|website)$/.test(value) || /\.(png|jpe?g|svg)$/.test(value)) return value;
+  if (/\/#(organization|website)$/.test(value) || /\.(png|jpe?g|svg|webp)$/.test(value)) return value;
   if (value === `${siteUrl}/` || value.startsWith(`${siteUrl}/#`)) return `${siteUrl}/zh/${value.slice(siteUrl.length + 1)}`;
   if (/^[^#]*\.html/.test(value.slice(siteUrl.length + 1)) && value.startsWith(`${siteUrl}/`)) return `${siteUrl}/zh/${value.slice(siteUrl.length + 1)}`;
   return value;
@@ -101,7 +101,7 @@ function buildZh(en, page) {
     .replace(/(<link href="https:\/\/fonts\.googleapis\.com[^>]+>)/, `$1\n  ${CJK_FONT}`)
     .replace(/<a class="(nav|menu)__lang" href="zh\/([^"]+)" lang="zh-Hans" hreflang="zh-Hans">中文<\/a>/g,
       '<a class="$1__lang" href="../$2" lang="en" hreflang="en-AU">EN</a>')
-    .replace(/ (src|href|data-photo)="(?!https?:|\.\.\/|#|mailto:|tel:)([^"]+\.(?:css|js|png|jpe?g|svg)(?:\?[^"]*)?)"/g, ' $1="../$2"')
+    .replace(/ (src|href|data-photo)="(?!https?:|\.\.\/|#|mailto:|tel:)([^"]+\.(?:css|js|png|jpe?g|svg|webp)(?:\?[^"]*)?)"/g, ' $1="../$2"')
     .replace(/(<script type="application\/ld\+json">\n)([\s\S]*?)(\n  <\/script>)/, (m, open, json, close) => open + translateJsonLd(json) + close);
   return withHreflang(html, page);
 }
