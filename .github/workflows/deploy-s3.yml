@@ -1,0 +1,48 @@
+# Deploys the site to the champion-debating S3 bucket on every push to main.
+# GitHub signs in to AWS through OIDC, so no AWS keys are stored in the repo.
+name: Deploy to S3
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: s3-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history so the sitemap gets each page's real last-commit date.
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check the Chinese pages are up to date
+        run: |
+          node tools/build-zh.mjs
+          git diff --exit-code -- '*.html' || { echo "Run node tools/build-zh.mjs and commit the result."; exit 1; }
+
+      - name: Generate sitemap and robots.txt
+        run: node tools/generate-sitemap.mjs
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::877886324135:role/champion-debating-github-deploy
+          aws-region: ap-southeast-2
+
+      # No --delete: a file removed from the repo stays in the bucket, so a bad commit can't wipe the site.
+      - name: Upload to S3
+        run: >
+          aws s3 sync . s3://champion-debating/
+          --exclude ".git*" --exclude ".github/*" --exclude "README.md" --exclude "tools/*"
