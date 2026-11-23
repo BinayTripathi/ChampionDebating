@@ -2,12 +2,12 @@
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   // The Chinese pages are generated from the English HTML, so strings set from script are translated here.
   const TEXT = document.documentElement.lang.startsWith('zh') ? {
-    openMenu: '打开菜单', closeMenu: '关闭菜单', sent: '谢谢！我们已收到您的咨询。',
+    openMenu: '打开菜单', closeMenu: '关闭菜单', closePoster: '关闭海报', sent: '谢谢！我们已收到您的咨询。',
     offline: '在线预约暂未开通，请通过 WhatsApp 联系我们。', humanCheck: '请先完成人机验证。', sendFailed: '提交失败，请重试，或通过 WhatsApp 联系我们。',
     required: '请填写此项。', email: '请输入有效的邮箱地址。', phone: '请输入有效的手机号码。', invalid: '请检查此项。',
     newFamily: '推荐链接仅限新客户使用。', mobileEnding: (digits) => `（手机尾号 ${digits}）`, copied: '已复制', shareText: (link) => `推荐您了解冠军辩论的英语辩论课程。使用这个链接预约免费体验课（仅限新客户）：${link}`,
   } : {
-    openMenu: 'Open menu', closeMenu: 'Close menu', sent: 'Thank you. Your enquiry has been received.',
+    openMenu: 'Open menu', closeMenu: 'Close menu', closePoster: 'Close poster', sent: 'Thank you. Your enquiry has been received.',
     offline: 'Online booking isn’t available yet. Please message us on WhatsApp.', humanCheck: 'Please complete the check that you’re not a robot.', sendFailed: 'We couldn’t send your enquiry. Please try again or message us on WhatsApp.',
     required: 'Please fill in this field.', email: 'Please enter a valid email address.', phone: 'Please enter a valid mobile number.', invalid: 'Please check this field.',
     newFamily: 'Referral links are for new customers only.', mobileEnding: (digits) => ` (mobile ending ${digits})`, copied: 'Copied', shareText: (link) => `I recommend Champion Debating. Book a free trial class with my referral link (new customers only): ${link}`,
@@ -21,6 +21,7 @@
   setUpEnquiryForm();
   setUpReferredBooking();
   setUpReferralLink();
+  setUpPosterViewer();
 
   document.querySelectorAll('[data-year]').forEach((node) => {
     node.textContent = new Date().getFullYear();
@@ -291,5 +292,23 @@
     if (field.validity.typeMismatch) return TEXT.email;
     if (field.validity.patternMismatch && field.type === 'tel') return TEXT.phone;
     return TEXT.invalid;
+  }
+
+  function setUpPosterViewer() {
+    const posters = document.querySelectorAll('.poster');
+    if (!posters.length) return;
+    const viewer = document.createElement('dialog');
+    viewer.className = 'poster-viewer';
+    viewer.innerHTML = `<button class="poster-viewer__close" type="button" aria-label="${TEXT.closePoster}">×</button><img alt="">`;
+    document.body.append(viewer);
+    const image = viewer.querySelector('img');
+    // Any click (button, poster or backdrop) closes it, so a tap never leaves the viewer stuck open.
+    viewer.addEventListener('click', () => viewer.close());
+    posters.forEach((poster) => poster.addEventListener('click', (event) => {
+      event.preventDefault();
+      image.src = poster.href;
+      image.alt = poster.querySelector('img').alt;
+      viewer.showModal();
+    }));
   }
 })();
