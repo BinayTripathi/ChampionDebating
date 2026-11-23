@@ -30,7 +30,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-  <link rel="stylesheet" href="../styles.css?v=92">
+  <link rel="stylesheet" href="../styles.css?v=93">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -45,13 +45,22 @@
         "image": "https://www.championdebating.com.au/og-image.png",
         "description": "English debate coaching from primary school to elite competition, in Melbourne and online.",
         "telephone": "+61 470 613 864",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "255 Whitehorse Road",
-          "addressLocality": "Balwyn",
-          "addressRegion": "VIC",
-          "addressCountry": "AU"
-        },
+        "address": [
+          {
+            "@type": "PostalAddress",
+            "streetAddress": "255 Whitehorse Road",
+            "addressLocality": "Balwyn",
+            "addressRegion": "VIC",
+            "addressCountry": "AU"
+          },
+          {
+            "@type": "PostalAddress",
+            "streetAddress": "L3/255 Blackburn Road",
+            "addressLocality": "Mount Waverley",
+            "addressRegion": "VIC",
+            "addressCountry": "AU"
+          }
+        ],
         "areaServed": {
           "@type": "City",
           "name": "Melbourne"
@@ -131,7 +140,7 @@
             "name": "在哪里上课？",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "在 Balwyn 校区（Whitehorse Road 255 号）及 Glen Waverley。工作坊和许多赛事在线上进行。"
+              "text": "在 Balwyn 校区（Whitehorse Road 255 号）及 Glen Waverley 校区（L3/255 Blackburn Road, Mt Waverley）。工作坊和许多赛事在线上进行。"
             }
           }
         ]
@@ -157,7 +166,7 @@
         <a href="contact.html" aria-current="page">联系我们</a>
       </div>
       <a class="nav__lang" href="../contact.html" lang="en" hreflang="en-AU">EN</a>
-      <a class="btn btn--primary btn--sm" href="contact.html#book">预约体验
+      <a class="btn btn--primary btn--sm" href="contact.html#book">立即咨询
         <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
       </a>
       <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="打开菜单"><span></span><span></span></button>
@@ -172,14 +181,14 @@
       </div>
       <div class="menu__foot">
         <a class="menu__lang" href="../contact.html" lang="en" hreflang="en-AU">EN</a>
-        <a class="btn btn--primary" href="contact.html#book">预约免费体验课
+        <a class="btn btn--primary" href="contact.html#book">立即咨询
           <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
         </a>
       </div>
     </div>
   </header>
 
-  <a class="book-bar btn btn--primary" href="contact.html#book">预约免费体验课
+  <a class="book-bar btn btn--primary" href="contact.html#book">立即咨询
     <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
   </a>
 
@@ -195,7 +204,7 @@
         </p>
         <p class="lede hero__lede">预约免费体验课，咨询课程或工作坊系列，或与我们聊聊赛事安排。</p>
         <div class="btn-row">
-          <a class="btn btn--primary" href="#book">预约免费体验课
+          <a class="btn btn--primary" href="#book">立即咨询
             <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
           </a>
         </div>
@@ -211,6 +220,7 @@
           <dl class="channels">
             <div><dt>校区</dt><dd>Balwyn · Glen Waverley</dd></div>
             <div><dt>Balwyn 校区</dt><dd>255 Whitehorse Road, Balwyn</dd></div>
+            <div><dt>Glen Waverley 校区</dt><dd>L3/255 Blackburn Road, Mt Waverley</dd></div>
           </dl>
 
           <div class="qr-codes">
@@ -240,7 +250,7 @@
 
         <div class="bezel book" id="book" data-reveal style="--d:120ms" data-enquiry>
           <div class="bezel__core">
-            <h2 class="h3 book__title">预约免费体验课</h2>
+            <h2 class="h3 book__title">向我们咨询</h2>
             <p class="muted book__lede">请告诉我们孩子的情况，我们会尽快与您联系安排时间。</p>
             <form class="form" novalidate>
               <div class="referred" data-referred hidden>
@@ -307,6 +317,7 @@
                     <option value="Hong Kong (+852)">中国香港 (+852)</option>
                     <option value="Singapore (+65)">新加坡 (+65)</option>
                     <option value="Malaysia (+60)">马来西亚 (+60)</option>
+                    <option value="Vietnam (+84)">越南 (+84)</option>
                     <option value="India (+91)">印度 (+91)</option>
                     <option value="Other">其他</option>
                   </select>
@@ -342,7 +353,7 @@
               </fieldset>
               <div data-human-check></div>
               <div>
-                <button class="btn btn--primary" type="submit">预约免费体验课
+                <button class="btn btn--primary" type="submit">提交咨询
                   <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
                 </button>
               </div>
@@ -386,7 +397,7 @@
           </details>
           <details>
             <summary>在哪里上课？<span class="faq__icon" aria-hidden="true"></span></summary>
-            <p class="faq__body">在 Balwyn 校区（Whitehorse Road 255 号）及 Glen Waverley。工作坊和许多赛事在线上进行。</p>
+            <p class="faq__body">在 Balwyn 校区（Whitehorse Road 255 号）及 Glen Waverley 校区（L3/255 Blackburn Road, Mt Waverley）。工作坊和许多赛事在线上进行。</p>
           </details>
         </div>
       </div>
@@ -434,7 +445,8 @@
           <ul>
             <li><a href="https://wa.me/61470613864">WhatsApp：+61 470 613 864</a></li>
             <li>255 Whitehorse Road, Balwyn</li>
-            <li><a href="contact.html#book">预约免费体验课</a></li>
+            <li>L3/255 Blackburn Road, Mt Waverley</li>
+            <li><a href="contact.html#book">立即咨询</a></li>
             <li><a href="refer.html">推荐新家庭，获 $50</a></li>
             <li><a href="pay.html">在线缴费</a></li>
           </ul>

@@ -29,7 +29,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="favicon.png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="stylesheet" href="styles.css?v=92">
+  <link rel="stylesheet" href="styles.css?v=93">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -44,13 +44,10 @@
         "image": "https://www.championdebating.com.au/og-image.png",
         "description": "English debate coaching from primary school to elite competition, in Melbourne and online.",
         "telephone": "+61 470 613 864",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "255 Whitehorse Road",
-          "addressLocality": "Balwyn",
-          "addressRegion": "VIC",
-          "addressCountry": "AU"
-        },
+        "address": [
+          { "@type": "PostalAddress", "streetAddress": "255 Whitehorse Road", "addressLocality": "Balwyn", "addressRegion": "VIC", "addressCountry": "AU" },
+          { "@type": "PostalAddress", "streetAddress": "L3/255 Blackburn Road", "addressLocality": "Mount Waverley", "addressRegion": "VIC", "addressCountry": "AU" }
+        ],
         "areaServed": {
           "@type": "City",
           "name": "Melbourne"
@@ -214,7 +211,7 @@
             "name": "What if my child misses a class?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "For a planned absence, you receive a credit of one class fee at the start of the term. For an unplanned absence, your child makes it up through a lesson, a video and homework tasks."
+              "text": "For a planned absence, you receive a credit of one class fee at the start of the term, up to a maximum of one credit per session. For an unplanned absence, your child makes it up through a lesson, a video and homework tasks."
             }
           },
           {
@@ -230,7 +227,7 @@
             "name": "When and where are classes held?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Classes run weekly at our Balwyn campus, 255 Whitehorse Road, and at Glen Waverley. Each session is two hours. Times are confirmed at enrolment; see the sample timetable above."
+              "text": "Classes run weekly at our Balwyn campus, 255 Whitehorse Road, and our Glen Waverley campus, L3/255 Blackburn Road, Mt Waverley. Each session is two hours. Times are confirmed at enrolment; see the sample timetable above."
             }
           },
           {
@@ -272,7 +269,7 @@
         <a href="contact.html">Contact</a>
       </div>
       <a class="nav__lang" href="zh/programs.html" lang="zh-Hans" hreflang="zh-Hans">中文</a>
-      <a class="btn btn--primary btn--sm" href="contact.html#book">Book a trial
+      <a class="btn btn--primary btn--sm" href="contact.html#book">Enquire now
         <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
       </a>
       <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"><span></span><span></span></button>
@@ -287,14 +284,14 @@
       </div>
       <div class="menu__foot">
         <a class="menu__lang" href="zh/programs.html" lang="zh-Hans" hreflang="zh-Hans">中文</a>
-        <a class="btn btn--primary" href="contact.html#book">Book a free trial
+        <a class="btn btn--primary" href="contact.html#book">Enquire now
           <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
         </a>
       </div>
     </div>
   </header>
 
-  <a class="book-bar btn btn--primary" href="contact.html#book">Book a free trial
+  <a class="book-bar btn btn--primary" href="contact.html#book">Enquire now
     <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
   </a>
 
@@ -309,7 +306,7 @@
         </p>
         <p class="lede hero__lede">Students progress from foundations to competition-level debating, in two-hour weekly sessions coached by national and international debaters.</p>
         <div class="btn-row">
-          <a class="btn btn--primary" href="contact.html#book">Book a free trial
+          <a class="btn btn--primary" href="contact.html#book">Enquire now
             <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
           </a>
           <a class="btn btn--gold" href="#timetable">See the timetable
@@ -336,7 +333,7 @@
               <h3 class="h3 tilt__lift">Primary Debating</h3>
               <p class="tilt__lift">Public speaking, reasoning and reading habits built early, the foundation everything else rests on.</p>
               <ul class="program__list tilt__lift"><li>Year 3–4 and Year 4–5 classes</li><li>Junior competition pathway</li></ul>
-              <a class="text-link" href="contact.html#book">Book a free trial
+              <a class="text-link" href="contact.html#book">Enquire now
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>
               </a>
               <span class="tilt__glare"></span>
@@ -348,7 +345,7 @@
               <h3 class="h3 tilt__lift">Junior Debating</h3>
               <p class="tilt__lift">Structured argument, rebuttal and clash, with regular speaking practice. Sunday classes available.</p>
               <ul class="program__list tilt__lift"><li>Coached weekly practice</li><li>Interschool and international events</li></ul>
-              <a class="text-link" href="contact.html#book">Book a free trial
+              <a class="text-link" href="contact.html#book">Enquire now
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>
               </a>
               <span class="tilt__glare"></span>
@@ -360,7 +357,7 @@
               <h3 class="h3 tilt__lift">Secondary Debating</h3>
               <p class="tilt__lift">Deeper analysis, evidence and persuasive speaking, preparing students for school teams and competitive circuits.</p>
               <ul class="program__list tilt__lift"><li>Motion analysis and case building</li><li>Mock rounds with live feedback</li></ul>
-              <a class="text-link" href="contact.html#book">Book a free trial
+              <a class="text-link" href="contact.html#book">Enquire now
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>
               </a>
               <span class="tilt__glare"></span>
@@ -372,7 +369,7 @@
               <h3 class="h3 tilt__lift">Elite Group &amp; VST Preparation</h3>
               <p class="tilt__lift">For advanced students aiming for the Victorian Schools Team and national competition, including British Parliamentary (BP) training.</p>
               <ul class="program__list tilt__lift"><li>VST selection simulation sessions</li><li>Feedback from experienced adjudicators</li></ul>
-              <a class="text-link" href="contact.html#book">Book a free trial
+              <a class="text-link" href="contact.html#book">Enquire now
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>
               </a>
               <span class="tilt__glare"></span>
@@ -384,7 +381,7 @@
               <h3 class="h3 tilt__lift">Online Competitions</h3>
               <p class="tilt__lift">We find, register and form teams for regional and international online competitions, one to two opportunities a month.</p>
               <ul class="program__list tilt__lift"><li>Australia/NZ, Asia-Pacific and international tiers</li><li>WSDC and British Parliamentary formats</li></ul>
-              <a class="text-link" href="contact.html#book">Book a free trial
+              <a class="text-link" href="contact.html#book">Enquire now
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>
               </a>
               <span class="tilt__glare"></span>
@@ -396,7 +393,7 @@
               <h3 class="h3 tilt__lift">Beyond Debate</h3>
               <p class="tilt__lift">Complementary programs that build the same skills of thinking and expression.</p>
               <ul class="program__list tilt__lift"><li>Model United Nations (MUN) coaching</li></ul>
-              <a class="text-link" href="contact.html#book">Book a free trial
+              <a class="text-link" href="contact.html#book">Enquire now
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg>
               </a>
               <span class="tilt__glare"></span>
@@ -430,7 +427,7 @@
             </tbody>
           </table>
         </div>
-        <p class="timetable__note">Balwyn campus: 255 Whitehorse Road, Balwyn.</p>
+        <p class="timetable__note">Balwyn campus: 255 Whitehorse Road, Balwyn. Glen Waverley campus: L3/255 Blackburn Road, Mt Waverley.</p>
       </div>
     </section>
 
@@ -452,7 +449,7 @@
           </details>
           <details>
             <summary>What if my child misses a class?<span class="faq__icon" aria-hidden="true"></span></summary>
-            <p class="faq__body">For a planned absence, you receive a credit of one class fee at the start of the term. For an unplanned absence, your child makes it up through a lesson, a video and homework tasks.</p>
+            <p class="faq__body">For a planned absence, you receive a credit of one class fee at the start of the term, up to a maximum of one credit per session. For an unplanned absence, your child makes it up through a lesson, a video and homework tasks.</p>
           </details>
           <details>
             <summary>How much homework is there?<span class="faq__icon" aria-hidden="true"></span></summary>
@@ -460,7 +457,7 @@
           </details>
           <details>
             <summary>When and where are classes held?<span class="faq__icon" aria-hidden="true"></span></summary>
-            <p class="faq__body">Classes run weekly at our Balwyn campus, 255 Whitehorse Road, and at Glen Waverley. Each session is two hours. Times are confirmed at enrolment; see the sample timetable above.</p>
+            <p class="faq__body">Classes run weekly at our Balwyn campus, 255 Whitehorse Road, and our Glen Waverley campus, L3/255 Blackburn Road, Mt Waverley. Each session is two hours. Times are confirmed at enrolment; see the sample timetable above.</p>
           </details>
           <details>
             <summary>Are classes taught in English?<span class="faq__icon" aria-hidden="true"></span></summary>
@@ -482,7 +479,7 @@
             <h2 class="h2" id="cta-title">Find their group in <em>one</em> class.</h2>
             <p class="lede">Book a free trial and we’ll recommend the right group and timetable for your child.</p>
             <div class="btn-row">
-              <a class="btn btn--primary" href="contact.html#book">Book a free trial
+              <a class="btn btn--primary" href="contact.html#book">Enquire now
             <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
           </a>
             </div>
@@ -533,7 +530,8 @@
           <ul>
             <li><a href="https://wa.me/61470613864">WhatsApp +61 470 613 864</a></li>
             <li>255 Whitehorse Road, Balwyn</li>
-            <li><a href="contact.html#book">Book a free trial</a></li>
+            <li>L3/255 Blackburn Road, Mt Waverley</li>
+            <li><a href="contact.html#book">Enquire now</a></li>
             <li><a href="refer.html">Refer a family, get $50</a></li>
             <li><a href="pay.html">Pay fees online</a></li>
           </ul>

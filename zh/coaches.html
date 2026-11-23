@@ -28,7 +28,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="../favicon.png">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-  <link rel="stylesheet" href="../styles.css?v=92">
+  <link rel="stylesheet" href="../styles.css?v=93">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -43,13 +43,22 @@
         "image": "https://www.championdebating.com.au/og-image.png",
         "description": "English debate coaching from primary school to elite competition, in Melbourne and online.",
         "telephone": "+61 470 613 864",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "255 Whitehorse Road",
-          "addressLocality": "Balwyn",
-          "addressRegion": "VIC",
-          "addressCountry": "AU"
-        },
+        "address": [
+          {
+            "@type": "PostalAddress",
+            "streetAddress": "255 Whitehorse Road",
+            "addressLocality": "Balwyn",
+            "addressRegion": "VIC",
+            "addressCountry": "AU"
+          },
+          {
+            "@type": "PostalAddress",
+            "streetAddress": "L3/255 Blackburn Road",
+            "addressLocality": "Mount Waverley",
+            "addressRegion": "VIC",
+            "addressCountry": "AU"
+          }
+        ],
         "areaServed": {
           "@type": "City",
           "name": "Melbourne"
@@ -106,16 +115,8 @@
       },
       {
         "@type": "Person",
-        "name": "Olivia",
-        "jobTitle": "首席教练",
-        "worksFor": {
-          "@id": "https://www.championdebating.com.au/#organization"
-        }
-      },
-      {
-        "@type": "Person",
         "name": "Zaakir",
-        "jobTitle": "进阶组与精英组主教练",
+        "jobTitle": "资深教练 · 进阶组与精英组",
         "worksFor": {
           "@id": "https://www.championdebating.com.au/#organization"
         }
@@ -123,15 +124,7 @@
       {
         "@type": "Person",
         "name": "Jenny",
-        "jobTitle": "特邀教练",
-        "worksFor": {
-          "@id": "https://www.championdebating.com.au/#organization"
-        }
-      },
-      {
-        "@type": "Person",
-        "name": "Tony",
-        "jobTitle": "特邀教练",
+        "jobTitle": "资深教练",
         "worksFor": {
           "@id": "https://www.championdebating.com.au/#organization"
         }
@@ -147,7 +140,7 @@
       {
         "@type": "Person",
         "name": "Lachlan",
-        "jobTitle": "特邀教练 · 基础组",
+        "jobTitle": "资深教练 · 基础组",
         "worksFor": {
           "@id": "https://www.championdebating.com.au/#organization"
         }
@@ -163,7 +156,7 @@
       {
         "@type": "Person",
         "name": "Nicholas",
-        "jobTitle": "教练 · 导航组",
+        "jobTitle": "特邀教练 · 导航组",
         "worksFor": {
           "@id": "https://www.championdebating.com.au/#organization"
         }
@@ -189,7 +182,7 @@
         <a href="contact.html">联系我们</a>
       </div>
       <a class="nav__lang" href="../coaches.html" lang="en" hreflang="en-AU">EN</a>
-      <a class="btn btn--primary btn--sm" href="contact.html#book">预约体验
+      <a class="btn btn--primary btn--sm" href="contact.html#book">立即咨询
         <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
       </a>
       <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="menu" aria-label="打开菜单"><span></span><span></span></button>
@@ -204,14 +197,14 @@
       </div>
       <div class="menu__foot">
         <a class="menu__lang" href="../coaches.html" lang="en" hreflang="en-AU">EN</a>
-        <a class="btn btn--primary" href="contact.html#book">预约免费体验课
+        <a class="btn btn--primary" href="contact.html#book">立即咨询
           <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
         </a>
       </div>
     </div>
   </header>
 
-  <a class="book-bar btn btn--primary" href="contact.html#book">预约免费体验课
+  <a class="book-bar btn btn--primary" href="contact.html#book">立即咨询
     <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
   </a>
 
@@ -227,7 +220,7 @@
         </p>
         <p class="lede hero__lede">我们的教练曾代表国家队出战，赢得国内及国际赛事冠军，并在重要赛事中担任评议员。</p>
         <div class="btn-row">
-          <a class="btn btn--primary" href="contact.html#book">预约免费体验课
+          <a class="btn btn--primary" href="contact.html#book">立即咨询
             <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
           </a>
         </div>
@@ -247,73 +240,75 @@
         <div class="coaches">
           <article class="bezel tilt" data-reveal style="--d:0ms">
             <div class="bezel__core coach">
-              <span class="coach__initial tilt__lift" aria-hidden="true">O</span>
-              <span class="camp__years tilt__lift">首席教练</span>
-              <h3 class="h3 tilt__lift">Olivia</h3>
-              <ul class="program__list tilt__lift"><li>牛津大学校际辩论赛决赛评议员</li><li>剑桥大学校际辩论赛特邀评议员</li><li>2024 年全国中学辩论赛总评议员</li><li>世界赛八强；澳大利亚 A 队成员</li><li>自 2022 年起担任维多利亚州队教练</li></ul>
+              <img class="coach__photo tilt__lift" src="../coach-zaakir.jpg" alt="Zaakir 的照片" width="240" height="240" loading="lazy">
+              <span class="camp__years tilt__lift">资深教练 · 进阶组与精英组</span>
+              <h3 class="h3 tilt__lift">Zaakir</h3>
+              <span class="coach__label tilt__lift">执教与评审经历</span>
+              <ul class="program__list tilt__lift"><li>Colombo International School 主教练</li><li>Victoria Cup 2024 公开组决赛主评</li><li>Kynnseys 2024 公开组决赛主评</li><li>IUDC 2024 公开组决赛评审团成员</li><li>IndoPacific Autumn WSDC 2024 (IA) 新手组决赛主评</li><li>Asia Pacific WSDC 2024 (IA) 公开组半决赛及 U16 决赛评审团成员</li></ul>
+              <span class="coach__label tilt__lift">辩论成就</span>
+              <ul class="program__list tilt__lift"><li>UCL President’s Cup 2023 公开组冠军及第二最佳辩手</li><li>LSE x Imperial Novices 2023 公开组冠军及最佳辩手</li><li>Pakistan Pre-WSDC 2024 公开组半决赛最佳辩手</li><li>UCLA IV 2024 公开组半决赛选手</li><li>Dialetica Pre-ABP 2024 公开组亚军及第二最佳辩手</li><li>LUMS Pre-ABP 2024 公开组亚军及第七最佳辩手</li><li>Hypothetical Open 2.0（2024）公开组亚军及第五最佳辩手</li><li>Sudan Fundraiser 2024 公开组亚军</li><li>RDO 2024 公开组亚军</li><li>Indo Pacific Pro-Am 2024 公开组决赛选手</li></ul>
               <span class="tilt__glare"></span>
             </div>
           </article>
           <article class="bezel tilt" data-reveal style="--d:80ms">
             <div class="bezel__core coach">
-              <span class="coach__initial tilt__lift" aria-hidden="true">Z</span>
-              <span class="camp__years tilt__lift">进阶组与精英组主教练</span>
-              <h3 class="h3 tilt__lift">Zaakir</h3>
-              <ul class="program__list tilt__lift"><li>2023 年 UCL 校长杯公开组决赛冠军及第二最佳辩手</li><li>科伦坡国际学校主教练</li><li>多场亚太重要赛事的公开组决赛主席及评议员</li></ul>
+              <img class="coach__photo tilt__lift" src="../coach-jenny.jpg" alt="Jenny 的照片" width="240" height="240" loading="lazy">
+              <span class="camp__years tilt__lift">资深教练</span>
+              <h3 class="h3 tilt__lift">Jenny</h3>
+              <span class="coach__label tilt__lift">执教与评审经历</span>
+              <ul class="program__list tilt__lift"><li>Presbyterian Ladies’ College Melbourne 辩论教练，晋级决赛队伍数量创多年新高</li><li>Melbourne Grammar School 辩论教练</li><li>Eastside Debating Competition 评审</li></ul>
+              <span class="coach__label tilt__lift">辩论成就</span>
+              <ul class="program__list tilt__lift"><li>澳大利亚国家队辩手</li><li>世界排名第 12 位辩手</li><li>World Schools Debating Championship 八分之一决赛选手</li><li>维多利亚州辩论队辩手（2022–2024）</li><li>全国冠军（2024）</li><li>DAV Schools’ Competition C 级半决赛选手（2022）</li><li>Monash Asian Studies Debating Championship 冠军、总最佳辩手及总决赛最佳辩手（2022）</li><li>DAV British Parliamentary Debating Competition 冠军（2022）</li></ul>
               <span class="tilt__glare"></span>
             </div>
           </article>
           <article class="bezel tilt" data-reveal style="--d:160ms">
             <div class="bezel__core coach">
-              <span class="coach__initial tilt__lift" aria-hidden="true">J</span>
+              <img class="coach__photo tilt__lift" src="../coach-mateo.jpg" alt="Mateo 的照片" width="240" height="240" loading="lazy">
               <span class="camp__years tilt__lift">特邀教练</span>
-              <h3 class="h3 tilt__lift">Jenny</h3>
-              <ul class="program__list tilt__lift"><li>澳大利亚国家队辩手；世界排名第 12</li><li>2024 年全国冠军；2022–2024 年维多利亚州队辩手</li><li>曾执教 Presbyterian Ladies’ College 及 Melbourne Grammar School</li></ul>
-              <span class="tilt__glare"></span>
-            </div>
-          </article>
-          <article class="bezel tilt" data-reveal style="--d:240ms">
-            <div class="bezel__core coach">
-              <span class="coach__initial tilt__lift" aria-hidden="true">T</span>
-              <span class="camp__years tilt__lift">特邀教练</span>
-              <h3 class="h3 tilt__lift">Tony</h3>
-              <ul class="program__list tilt__lift"><li>2023–2024 年新西兰国家辩论队教练</li><li>2025 年台湾国家队教练</li><li>2021 年新西兰全国中学赛总冠军及最佳辩手</li></ul>
+              <h3 class="h3 tilt__lift">Mateo</h3>
+              <span class="coach__label tilt__lift">执教经历</span>
+              <ul class="program__list tilt__lift"><li>担任 Mazenod College 辩论教练 5 年：在初级、中级及公开组多次夺得 ACC 冠军，带出四支八分之一决赛队伍和一支四分之一决赛队伍</li><li>Speaking Schools Australia 教练（2026）</li></ul>
+              <span class="coach__label tilt__lift">评审经历</span>
+              <ul class="program__list tilt__lift"><li>Australian Intervarsity Debating Championships 2024 第十最佳评审及总决赛评审</li><li>Australian British Parliamentary Intervarsity Debating Championships 2024 评审</li><li>在 10 余项国际大学辩论赛中获最佳评审；20 余项赛事总决赛评审</li><li>5 余项大学辩论赛核心评审</li><li>DAV 及 ISDA 中学辩论赛决赛评审</li></ul>
+              <span class="coach__label tilt__lift">辩论成就</span>
+              <ul class="program__list tilt__lift"><li>三次进入 DAV 决赛阶段：A 级半决赛（2021）、B 级四分之一决赛（2020）、D 级八分之一决赛（2018）</li><li>Australian Intervarsity Debating Championships 2025 预备组决赛选手</li><li>2 项大学辩论赛冠军；6 项赛事决赛选手</li></ul>
               <span class="tilt__glare"></span>
             </div>
           </article>
           <article class="bezel tilt" data-reveal style="--d:0ms">
             <div class="bezel__core coach">
-              <span class="coach__initial tilt__lift" aria-hidden="true">M</span>
-              <span class="camp__years tilt__lift">特邀教练</span>
-              <h3 class="h3 tilt__lift">Mateo</h3>
-              <ul class="program__list tilt__lift"><li>执教 Mazenod College 辩论队 5 年，多次夺得 ACC 赛事冠军</li><li>多场国际校际赛事的决赛评议员</li><li>三次进入 DAV 决赛</li></ul>
+              <img class="coach__photo tilt__lift" src="../coach-lachlan.jpg" alt="Lachlan 的照片" width="240" height="240" loading="lazy">
+              <span class="camp__years tilt__lift">资深教练 · 基础组</span>
+              <h3 class="h3 tilt__lift">Lachlan</h3>
+              <span class="coach__label tilt__lift">执教与评审经历</span>
+              <ul class="program__list tilt__lift"><li>西澳州队教练（2025）</li><li>Scotch College 一队教练</li><li>Melbourne Grammar School 教练</li><li>Australian National Championships (Easters) 第二最佳评审</li><li>World Universities Debating Championship 晋级评审</li><li>获任 National Schools Debating Championship 2027 首席评审</li><li>National Schools Debating Championship 2026 评审</li></ul>
+              <span class="coach__label tilt__lift">辩论成就</span>
+              <ul class="program__list tilt__lift"><li>USU Pre-Australs 2026 冠军</li><li>Australasian Debating Championship (Australs) 2026 第五名队伍</li><li>Australian BP Debating Championship 2026 四分之一决赛选手</li><li>澳大利亚中学生辩论队替补队员（2024）</li><li>西澳州辩论队队长（2024）</li></ul>
               <span class="tilt__glare"></span>
             </div>
           </article>
           <article class="bezel tilt" data-reveal style="--d:80ms">
             <div class="bezel__core coach">
-              <span class="coach__initial tilt__lift" aria-hidden="true">L</span>
-              <span class="camp__years tilt__lift">特邀教练 · 基础组</span>
-              <h3 class="h3 tilt__lift">Lachlan</h3>
-              <ul class="program__list tilt__lift"><li>2024 年西澳辩论队队长</li><li>2024 年澳大利亚中学辩论队成员</li><li>世界大学辩论赛评议员；2025 年西澳州队助理教练</li></ul>
+              <img class="coach__photo tilt__lift" src="../coach-liam.jpg" alt="Liam 的照片" width="240" height="240" loading="lazy">
+              <span class="camp__years tilt__lift">特邀教练 · 初级组</span>
+              <h3 class="h3 tilt__lift">Liam</h3>
+              <span class="coach__label tilt__lift">执教与评审经历</span>
+              <ul class="program__list tilt__lift"><li>World Schools Debating Championship 特邀评审</li><li>Uhuru Worlds 中学组决赛评审</li><li>University of Pennsylvania World Schools 决赛评审</li><li>New Zealand Schools Debating 评审</li><li>Auckland Schools Debating 高级组评审</li><li>执教 Pymble Ladies’ College 夺得 International Debating Championship 初级组冠军</li><li>在澳大利亚和新西兰执教五年级至十二年级学生</li><li>Haileybury College 高中部教练</li></ul>
+              <span class="coach__label tilt__lift">辩论成就</span>
+              <ul class="program__list tilt__lift"><li>新西兰在线中学辩论赛冠军（AOSD）</li><li>新西兰中学辩手排名前十（NZSBP）</li><li>Southland Schools Debating Championship 五届冠军及最佳辩手</li><li>Australasian Intervarsity Debating Championship 参赛选手（尼泊尔、广州）</li><li>University of Auckland Debating Society 最具潜力辩手</li></ul>
               <span class="tilt__glare"></span>
             </div>
           </article>
           <article class="bezel tilt" data-reveal style="--d:160ms">
             <div class="bezel__core coach">
-              <span class="coach__initial tilt__lift" aria-hidden="true">L</span>
-              <span class="camp__years tilt__lift">特邀教练 · 初级组</span>
-              <h3 class="h3 tilt__lift">Liam</h3>
-              <ul class="program__list tilt__lift"><li>世界中学辩论赛特邀评议员</li><li>指导 Pymble Ladies’ College 夺得国际辩论锦标赛初级组冠军</li><li>五次获得 Southland 中学赛冠军及最佳辩手</li></ul>
-              <span class="tilt__glare"></span>
-            </div>
-          </article>
-          <article class="bezel tilt" data-reveal style="--d:240ms">
-            <div class="bezel__core coach">
-              <span class="coach__initial tilt__lift" aria-hidden="true">N</span>
-              <span class="camp__years tilt__lift">教练 · 导航组</span>
+              <img class="coach__photo tilt__lift" src="../coach-nicholas.jpg" alt="Nicholas 的照片" width="240" height="240" loading="lazy">
+              <span class="camp__years tilt__lift">特邀教练 · 导航组</span>
               <h3 class="h3 tilt__lift">Nicholas</h3>
-              <ul class="program__list tilt__lift"><li>执教 Melbourne Grammar School 及 Prince Alfred College</li><li>2026 年 Australs 墨尔本赛区排名第一的评议员</li><li>2026 年 Melbourne Open 新手组排名第一</li></ul>
+              <span class="coach__label tilt__lift">执教与评审经历</span>
+              <ul class="program__list tilt__lift"><li>Melbourne Grammar School 辩论教练</li><li>Prince Alfred College 辩论教练（所带队伍赢得 Intermediate A 决赛）</li><li>Australs 2026 墨尔本排名第一评审</li><li>Speakers Corner 辩论及演讲教练</li></ul>
+              <span class="coach__label tilt__lift">辩论成就</span>
+              <ul class="program__list tilt__lift"><li>墨尔本大学最佳新人辩手（2026）</li><li>Australian National Debating Championships, Easters 第 17 名队伍（2026）</li><li>Melbourne Open 新人组第一名队伍（2026）</li><li>Melbourne Open 新人组第五名辩手及第二名总结陈词辩手（2026）</li><li>South Australian Debating Association Senior A 组决赛选手（2025）</li><li>South Australian Debating Association Senior A 组总决赛选手（2024）</li></ul>
               <span class="tilt__glare"></span>
             </div>
           </article>
@@ -329,7 +324,7 @@
             <h2 class="h2" id="cta-title">在<em>免费</em>体验课中向他们学习。</h2>
             <p class="lede">预约免费体验课，认识将带领孩子班级的教练。</p>
             <div class="btn-row">
-              <a class="btn btn--primary" href="contact.html#book">预约免费体验课
+              <a class="btn btn--primary" href="contact.html#book">立即咨询
             <span class="btn__icon"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12 12 4M5.5 4H12v6.5"/></svg></span>
           </a>
               <a class="btn btn--gold" href="programs.html#timetable">查看课表
@@ -383,7 +378,8 @@
           <ul>
             <li><a href="https://wa.me/61470613864">WhatsApp：+61 470 613 864</a></li>
             <li>255 Whitehorse Road, Balwyn</li>
-            <li><a href="contact.html#book">预约免费体验课</a></li>
+            <li>L3/255 Blackburn Road, Mt Waverley</li>
+            <li><a href="contact.html#book">立即咨询</a></li>
             <li><a href="refer.html">推荐新家庭，获 $50</a></li>
             <li><a href="pay.html">在线缴费</a></li>
           </ul>
